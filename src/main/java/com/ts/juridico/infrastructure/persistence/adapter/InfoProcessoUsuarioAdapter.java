@@ -1,0 +1,23 @@
+package com.ts.juridico.infrastructure.persistence.adapter;
+
+import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
+import com.ts.juridico.domain.model.InfoProcessoUsuario;
+import com.ts.juridico.domain.port.InfoProcessoUsuarioPort;
+import com.ts.juridico.infrastructure.persistence.jpa.InfoProcessoUsuarioJpaRepository;
+import com.ts.juridico.infrastructure.persistence.mapper.InfoProcessoUsuarioMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@RequiredArgsConstructor
+public class InfoProcessoUsuarioAdapter implements InfoProcessoUsuarioPort {
+
+    private final InfoProcessoUsuarioJpaRepository infoProcessoUsuarioJpaRepository;
+    private final InfoProcessoUsuarioMapper infoProcessoUsuarioMapper;
+
+    @Override
+    public InfoProcessoUsuario saveInfoProcessUser(UsuarioProcessoCadastroDto usuarioProcessoCadastroDto) {
+        InfoProcessoUsuario infoProcessoUsuario = infoProcessoUsuarioMapper.dtoToModel(usuarioProcessoCadastroDto);
+        return infoProcessoUsuarioJpaRepository.save(infoProcessoUsuario);
+    }
+}

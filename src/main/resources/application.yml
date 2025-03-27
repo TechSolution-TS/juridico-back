@@ -1,0 +1,21 @@
+server:
+  servlet:
+    context-path: /v1/api
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/juridicoDB
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+security:
+  api:
+    key: "${SECRET_TOKEN:}"
+
+
+scheduler:
+  deactivate-time: 3600000
