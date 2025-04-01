@@ -47,4 +47,8 @@ public class UsuarioContratoEmpresa {
 
     @Column(name = "tipo_beneficio", length = 50)
     private String tipoBeneficio;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private UsuarioProcesso userId;
 }

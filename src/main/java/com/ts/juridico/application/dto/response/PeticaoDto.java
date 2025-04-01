@@ -11,4 +11,5 @@ public class PeticaoDto {
 
     private String tipoPeticao;
     private String modelo;
+    private String value;
 }

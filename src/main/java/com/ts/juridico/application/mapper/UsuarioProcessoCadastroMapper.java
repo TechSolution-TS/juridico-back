@@ -1,0 +1,47 @@
+package com.ts.juridico.application.mapper;
+
+import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
+import com.ts.juridico.domain.model.InfoProcessoUsuario;
+import com.ts.juridico.domain.model.UsuarioContratoEmpresa;
+import com.ts.juridico.domain.model.UsuarioEmpresaProcesso;
+import com.ts.juridico.domain.model.UsuarioProcesso;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UsuarioProcessoCadastroMapper {
+
+    public UsuarioProcessoCadastroDto modelToDto(UsuarioProcesso user,
+                                                 UsuarioEmpresaProcesso empresaProcesso,
+                                                 UsuarioContratoEmpresa usuarioContratoEmpresa,
+                                                 InfoProcessoUsuario infoProcessoUsuario) {
+        return UsuarioProcessoCadastroDto.builder()
+                .rg(user.getRg())
+                .cpf(user.getCpf())
+                .nome(user.getNome())
+                .estadoCivil(user.getEstadoCivil())
+                .endereco(user.getEndereco())
+                .dataNascimento(user.getDataNascimento().toString())
+                .areaAtuacao(user.getAreaAtuacao())
+                .telefone(user.getTelefone())
+                .senhaGov(user.getSenhaGov())
+                .nomeEmpresa(empresaProcesso.getNome())
+                .cnpjEmpresa(empresaProcesso.getCnpj())
+                .enderecoEmpresa(empresaProcesso.getEndereco())
+                .cargo(usuarioContratoEmpresa.getCargo())
+                .salario(usuarioContratoEmpresa.getSalario())
+                .ultimaRemuneracao(usuarioContratoEmpresa.getUltimaRemuneracao())
+                .dataAdmissao(usuarioContratoEmpresa.getDataAdmissao().toString().toString())
+                .dataDemissao(usuarioContratoEmpresa.getDataDemissao().toString())
+                .dataAvisoPrevio(usuarioContratoEmpresa.getDataAvisoPrevio().toString())
+                .tipoAdmissao(usuarioContratoEmpresa.getTipoAdmissao())
+                .tipoDemissao(usuarioContratoEmpresa.getTipoDemissao())
+                .tipoAvisoPrevio(usuarioContratoEmpresa.getTipoAvisoPrevio())
+                .tipoBeneficio(usuarioContratoEmpresa.getTipoBeneficio())
+                .relatorio(infoProcessoUsuario.getRelatorio())
+                .observacao(infoProcessoUsuario.getObservacao())
+                .cidade(infoProcessoUsuario.getCidade())
+                .dataProcesso(infoProcessoUsuario.getDataProcesso().toString())
+                .advogadoResponsavel(infoProcessoUsuario.getAdvogadoResponsavel())
+                .build();
+    }
+}

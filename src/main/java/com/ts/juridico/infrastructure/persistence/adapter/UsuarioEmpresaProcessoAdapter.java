@@ -3,10 +3,13 @@ package com.ts.juridico.infrastructure.persistence.adapter;
 import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
 import com.ts.juridico.domain.model.UsuarioEmpresaProcesso;
 import com.ts.juridico.domain.port.UsuarioEmpresaProcessoPort;
+import com.ts.juridico.infrastructure.exception.UserNotFoundException;
 import com.ts.juridico.infrastructure.persistence.jpa.UsuarioEmpresaProcessoJpaRepository;
 import com.ts.juridico.infrastructure.persistence.mapper.UsuarioEmpresaProcessoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,5 +22,13 @@ public class UsuarioEmpresaProcessoAdapter implements UsuarioEmpresaProcessoPort
     public UsuarioEmpresaProcesso saveUserEnterprise(UsuarioProcessoCadastroDto usuarioProcessoCadastroDto) {
         UsuarioEmpresaProcesso usuarioEmpresaProcesso = mapper.dtoToModel(usuarioProcessoCadastroDto);
         return usuarioEmpresaProcessoJpaRepository.save(usuarioEmpresaProcesso);
+    }
+
+    @Override
+    public UsuarioEmpresaProcesso findEmpresaProcesso(Long userId) {
+        return usuarioEmpresaProcessoJpaRepository.findByUserId_id(userId)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException("Processo with ID " + userId + " not found"));
     }
 }

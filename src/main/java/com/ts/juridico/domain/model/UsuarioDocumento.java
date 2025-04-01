@@ -18,4 +18,8 @@ public class UsuarioDocumento {
 
     @Column(name = "link_drive", length = 255)
     private String linkDrive;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private UsuarioProcesso userId;
 }

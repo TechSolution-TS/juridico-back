@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 public class UsuarioProcessoMapper {
 
     public UsuarioProcesso dtoToModel(UsuarioProcessoCadastroDto dto) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         return UsuarioProcesso.builder()
                 .cpf(dto.getCpf())

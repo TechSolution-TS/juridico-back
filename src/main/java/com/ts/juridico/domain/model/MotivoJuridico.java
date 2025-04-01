@@ -21,6 +21,7 @@ public class MotivoJuridico {
 
     @Column(length = 50)
     private String explicacao;
+
     @ManyToOne
     @JoinColumn(name = "fundamento_juridico_id")
     private FundamentoJuridico fundamentoJuridico;

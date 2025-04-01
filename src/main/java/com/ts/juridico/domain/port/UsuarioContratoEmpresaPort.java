@@ -6,4 +6,5 @@ import com.ts.juridico.domain.model.UsuarioContratoEmpresa;
 public interface UsuarioContratoEmpresaPort {
 
     UsuarioContratoEmpresa saveContractEnterprise(UsuarioProcessoCadastroDto dto);
+    UsuarioContratoEmpresa findContractEnterprise(Long userId);
 }

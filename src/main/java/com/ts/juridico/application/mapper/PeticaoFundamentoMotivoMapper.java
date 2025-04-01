@@ -24,6 +24,7 @@ public class PeticaoFundamentoMotivoMapper {
         return PeticaoDto.builder()
                 .modelo(peticao.getModelo())
                 .tipoPeticao(peticao.getTipoPeticao())
+                .value(peticao.getValue())
                 .build();
     }
 

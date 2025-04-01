@@ -21,4 +21,7 @@ public class Peticao {
 
     @Column(length = 100)
     private String modelo;
+
+    @Column(length = 100)
+    private String value;
 }

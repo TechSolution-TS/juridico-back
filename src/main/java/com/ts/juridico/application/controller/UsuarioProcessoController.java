@@ -6,10 +6,7 @@ import com.ts.juridico.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user/process")
@@ -22,5 +19,11 @@ public class UsuarioProcessoController {
     public ResponseEntity<MessageResponseDto> createUserProcess(@RequestBody UsuarioProcessoCadastroDto usuarioProcessoCadastroDto) {
         usuarioService.userRegister(usuarioProcessoCadastroDto);
         return ResponseEntity.ok(new MessageResponseDto("Operação realizada com sucesso!"));
+    }
+
+    @GetMapping(value = "/{cpf}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UsuarioProcessoCadastroDto> createUserProcess(@PathVariable("cpf") String cpf) {
+        UsuarioProcessoCadastroDto userProcess = usuarioService.findUserProcess(cpf);
+        return ResponseEntity.ok(userProcess);
     }
 }

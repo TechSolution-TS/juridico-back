@@ -24,4 +24,8 @@ public class UsuarioEmpresaProcesso {
 
     @Column(length = 200)
     private String endereco;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private UsuarioProcesso userId;
 }

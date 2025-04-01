@@ -6,4 +6,6 @@ import com.ts.juridico.domain.model.InfoProcessoUsuario;
 public interface InfoProcessoUsuarioPort {
 
     InfoProcessoUsuario saveInfoProcessUser(UsuarioProcessoCadastroDto usuarioProcessoCadastroDto);
+    InfoProcessoUsuario findInfoProcessUser(Long userId);
+
 }

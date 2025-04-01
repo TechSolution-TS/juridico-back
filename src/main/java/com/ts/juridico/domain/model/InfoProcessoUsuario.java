@@ -31,4 +31,8 @@ public class InfoProcessoUsuario {
 
     @Column(name = "advogado_responsavel", length = 100)
     private String advogadoResponsavel;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private UsuarioProcesso userId;
 }
