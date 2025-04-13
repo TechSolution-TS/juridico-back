@@ -37,6 +37,7 @@ public class PeticaoFundamentoMotivoMapper {
     public FundamentoJuridicoDto modelToFundationDto(FundamentoJuridico fundamentoJuridico) {
         return FundamentoJuridicoDto.builder()
                 .hipotese(fundamentoJuridico.getHipotese())
+                .value(fundamentoJuridico.getValue())
                 .peticao(fundamentoJuridico.getPeticao())
                 .build();
     }
@@ -50,6 +51,8 @@ public class PeticaoFundamentoMotivoMapper {
     public MotivoJuridicoDto modelToReasonDto(MotivoJuridico motivoJuridico) {
         return MotivoJuridicoDto.builder()
                 .motivo(motivoJuridico.getMotivo())
+                .labelFundamento(motivoJuridico.getLabelFundamento())
+                .tituloMotivo(motivoJuridico.getTituloMotivo())
                 .explicacao(motivoJuridico.getExplicacao())
                 .fundamentoJuridico(motivoJuridico.getFundamentoJuridico())
                 .build();

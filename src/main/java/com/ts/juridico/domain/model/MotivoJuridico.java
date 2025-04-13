@@ -16,10 +16,16 @@ public class MotivoJuridico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100)
+    @Column(columnDefinition = "TEXT")
     private String motivo;
 
-    @Column(length = 50)
+    @Column(name = "titulo_motivo", columnDefinition = "TEXT")
+    private String tituloMotivo;
+
+    @Column(name = "label_fundamento_juridico")
+    private String labelFundamento;
+
+    @Column(columnDefinition = "TEXT")
     private String explicacao;
 
     @ManyToOne

@@ -4,6 +4,7 @@ import com.ts.juridico.domain.model.FundamentoJuridico;
 import com.ts.juridico.domain.model.MotivoJuridico;
 import com.ts.juridico.domain.model.Peticao;
 import com.ts.juridico.domain.port.PeticaoFundamentoMotivoPort;
+import com.ts.juridico.infrastructure.exception.PetitionNotFoundException;
 import com.ts.juridico.infrastructure.persistence.jpa.FundamentoJuridicoJpaRepository;
 import com.ts.juridico.infrastructure.persistence.jpa.MotivoJuridicoJpaRepository;
 import com.ts.juridico.infrastructure.persistence.jpa.PeticaoJpaRepository;
@@ -26,8 +27,18 @@ public class PeticaoFundamentoMotivoAdapter implements PeticaoFundamentoMotivoPo
     }
 
     @Override
+    public Peticao searchPetition(String modeloPetition) {
+        return peticaoJpaRepository.findByValue(modeloPetition).orElseThrow(() -> new PetitionNotFoundException("Petition Not Found"));
+    }
+
+    @Override
     public List<FundamentoJuridico> searchFoundationByPetition(Long petitionId) {
         return fundamentoJuridicoJpaRepository.findByPeticao_id(petitionId);
+    }
+
+    @Override
+    public FundamentoJuridico searchFoundationByTypePetition(String typeFoundation) {
+        return fundamentoJuridicoJpaRepository.findByValue(typeFoundation).orElseThrow(() -> new PetitionNotFoundException("Foundation Not Found"));
     }
 
     @Override

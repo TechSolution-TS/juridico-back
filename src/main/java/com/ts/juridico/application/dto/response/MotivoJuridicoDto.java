@@ -9,6 +9,8 @@ import lombok.*;
 public class MotivoJuridicoDto {
 
     private String motivo;
+    private String labelFundamento;
+    private String tituloMotivo;
     private String explicacao;
     private FundamentoJuridico fundamentoJuridico;
 }

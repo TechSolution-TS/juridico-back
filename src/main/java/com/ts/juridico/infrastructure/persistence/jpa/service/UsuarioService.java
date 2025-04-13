@@ -1,4 +1,4 @@
-package com.ts.juridico.domain.service;
+package com.ts.juridico.infrastructure.persistence.jpa.service;
 
 import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
 import com.ts.juridico.application.mapper.UsuarioProcessoCadastroMapper;

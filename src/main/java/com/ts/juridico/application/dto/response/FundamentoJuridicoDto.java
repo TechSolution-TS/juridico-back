@@ -9,5 +9,6 @@ import lombok.*;
 public class FundamentoJuridicoDto {
 
     private String hipotese;
+    private String value;
     private Peticao peticao;
 }

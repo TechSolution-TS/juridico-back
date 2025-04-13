@@ -9,6 +9,8 @@ import java.util.List;
 public interface PeticaoFundamentoMotivoPort {
 
     List<Peticao> searchPetitions();
+    Peticao searchPetition(String modeloPetition);
     List<FundamentoJuridico> searchFoundationByPetition(Long petitionId);
+    FundamentoJuridico searchFoundationByTypePetition(String typeFoundation);
     List<MotivoJuridico> searchReasonByFoundation(Long foundationId);
 }

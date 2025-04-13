@@ -19,6 +19,9 @@ public class FundamentoJuridico {
     @Column(length = 100)
     private String hipotese;
 
+    @Column(length = 100)
+    private String value;
+
     @ManyToOne
     @JoinColumn(name = "peticao_id")
     private Peticao peticao;

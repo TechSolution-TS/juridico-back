@@ -1,4 +1,4 @@
-package com.ts.juridico.domain.service;
+package com.ts.juridico.infrastructure.persistence.jpa.service;
 
 import com.ts.juridico.domain.model.FundamentoJuridico;
 import com.ts.juridico.domain.model.MotivoJuridico;
@@ -19,8 +19,16 @@ public class PeticaoFundamentoMotivoService {
        return peticaoFundamentoMotivoPort.searchPetitions();
     }
 
+    public Peticao searchPetition(String modeloPetition) {
+        return peticaoFundamentoMotivoPort.searchPetition(modeloPetition);
+    }
+
     public List<FundamentoJuridico> searchFoundations(Long petitionsId) {
         return peticaoFundamentoMotivoPort.searchFoundationByPetition(petitionsId);
+    }
+
+    public FundamentoJuridico searchFoundation(String typeFoundation) {
+        return peticaoFundamentoMotivoPort.searchFoundationByTypePetition(typeFoundation);
     }
 
     public List<MotivoJuridico> searchReasons(Long foundationId) {

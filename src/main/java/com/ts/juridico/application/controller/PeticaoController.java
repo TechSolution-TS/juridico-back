@@ -7,7 +7,7 @@ import com.ts.juridico.application.mapper.PeticaoFundamentoMotivoMapper;
 import com.ts.juridico.domain.model.FundamentoJuridico;
 import com.ts.juridico.domain.model.MotivoJuridico;
 import com.ts.juridico.domain.model.Peticao;
-import com.ts.juridico.domain.service.PeticaoFundamentoMotivoService;
+import com.ts.juridico.infrastructure.persistence.jpa.service.PeticaoFundamentoMotivoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,15 +29,17 @@ public class PeticaoController {
         return ResponseEntity.ok(peticaoFundamentoMotivoMapper.tolistDto(petitions));
     }
 
-    @GetMapping(value = "/foundations/{petitionId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<FundamentoJuridicoDto>> getFoundations(@PathVariable("petitionId") Long petitionId) {
-        List<FundamentoJuridico> foundations = peticaoFundamentoMotivoService.searchFoundations(petitionId);
+    @GetMapping(value = "/foundations/{modeloPetition}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<FundamentoJuridicoDto>> getFoundations(@PathVariable("modeloPetition") String modeloPetition) {
+        Peticao petition = peticaoFundamentoMotivoService.searchPetition(modeloPetition);
+        List<FundamentoJuridico> foundations = peticaoFundamentoMotivoService.searchFoundations(petition.getId());
         return ResponseEntity.ok(peticaoFundamentoMotivoMapper.tolistFundationDto(foundations));
     }
 
-    @GetMapping(value = "/reasons/{foundationId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<MotivoJuridicoDto>> getReasons(@PathVariable("foundationId") Long foundationId) {
-        List<MotivoJuridico> reasons = peticaoFundamentoMotivoService.searchReasons(foundationId);
+    @GetMapping(value = "/reasons/{typeFoundation}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MotivoJuridicoDto>> getReasons(@PathVariable("typeFoundation") String typeFoundation) {
+        FundamentoJuridico foundation = peticaoFundamentoMotivoService.searchFoundation(typeFoundation);
+        List<MotivoJuridico> reasons = peticaoFundamentoMotivoService.searchReasons(foundation.getId());
         return ResponseEntity.ok(peticaoFundamentoMotivoMapper.tolistReasonDto(reasons));
     }
 }
