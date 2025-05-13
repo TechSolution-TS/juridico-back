@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class GerarPeticaoRequestDTO {
+public class GerarPeticaoRequestDto {
     private String tituloFundamentoMotivo;
     private String explicacaoFundamentoMotivo;
 
@@ -15,5 +15,5 @@ public class GerarPeticaoRequestDTO {
     private String explicacaoVerbasRescisorias;
 
     private String tituloDireitoSolicitado;
-    private List<DireitoExplicacaoDTO> explicacaoDireitoSolicitado;
+    private List<DireitoExplicacaoDto> explicacaoDireitoSolicitado;
 }

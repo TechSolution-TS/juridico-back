@@ -16,10 +16,12 @@ public class UsuarioDocumento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "link_drive", length = 255)
-    private String linkDrive;
+    @Column(name = "file_id")
+    private String fileId;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private UsuarioProcesso userId;
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "process_uuid")
+    private String processUuid;
 }

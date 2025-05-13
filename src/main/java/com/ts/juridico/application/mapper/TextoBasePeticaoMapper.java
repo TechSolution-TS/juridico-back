@@ -1,14 +1,14 @@
 package com.ts.juridico.application.mapper;
 
-import com.ts.juridico.application.dto.response.TextoBasePeticaoDTO;
+import com.ts.juridico.application.dto.response.TextoBasePeticaoDto;
 import com.ts.juridico.domain.model.TextoBasePeticao;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TextoBasePeticaoMapper {
 
-    public TextoBasePeticaoDTO modelToDto(TextoBasePeticao entity) {
-        return TextoBasePeticaoDTO.builder()
+    public TextoBasePeticaoDto modelToDto(TextoBasePeticao entity) {
+        return TextoBasePeticaoDto.builder()
                 .labelFundamentoJuridico(entity.getLabelFundamentoJuridico())
                 .enderecamento(entity.getEnderecamento())
                 .qualificacaoReclamante(entity.getQualificacaoReclamante())

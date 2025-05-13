@@ -2,7 +2,7 @@ package com.ts.juridico.application.controller;
 
 import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
 import com.ts.juridico.application.dto.response.MessageResponseDto;
-import com.ts.juridico.infrastructure.persistence.jpa.service.UsuarioService;
+import com.ts.juridico.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

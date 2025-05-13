@@ -1,10 +1,10 @@
 package com.ts.juridico.application.controller;
 
-import com.ts.juridico.application.dto.request.GerarPeticaoRequestDTO;
-import com.ts.juridico.application.dto.response.TextoBasePeticaoDTO;
+import com.ts.juridico.application.dto.request.GerarPeticaoRequestDto;
+import com.ts.juridico.application.dto.response.TextoBasePeticaoDto;
 import com.ts.juridico.application.mapper.TextoBasePeticaoMapper;
 import com.ts.juridico.domain.model.TextoBasePeticao;
-import com.ts.juridico.infrastructure.persistence.jpa.service.TextoBasePeticaoService;
+import com.ts.juridico.domain.service.TextoBasePeticaoService;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -27,7 +27,7 @@ public class TextoBaseController {
     private final TextoBasePeticaoMapper textoBasePeticaoMapper;
 
     @GetMapping(value = "/{typeFoundation}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TextoBasePeticaoDTO> searchTextBasePetition(@PathVariable("typeFoundation") String typeFoundation) {
+    public ResponseEntity<TextoBasePeticaoDto> searchTextBasePetition(@PathVariable("typeFoundation") String typeFoundation) {
         TextoBasePeticao textoBasePeticao = textoBasePeticaoService.searchTextBaseByFoundation(typeFoundation);
         return ResponseEntity.ok(textoBasePeticaoMapper.modelToDto(textoBasePeticao));
     }
@@ -35,7 +35,7 @@ public class TextoBaseController {
     @PostMapping(value = "/gerar-peticao/{typeFoundation}", produces = "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
     public ResponseEntity<byte[]> gerarPeticaoPersonalizada(
             @PathVariable("typeFoundation") String typeFoundation,
-            @RequestBody GerarPeticaoRequestDTO requestDTO
+            @RequestBody GerarPeticaoRequestDto requestDTO
     ) throws IOException {
         TextoBasePeticao texto = textoBasePeticaoService.searchTextBaseByFoundation(typeFoundation);
 

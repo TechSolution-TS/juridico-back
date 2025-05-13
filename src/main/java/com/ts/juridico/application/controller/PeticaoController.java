@@ -7,7 +7,7 @@ import com.ts.juridico.application.mapper.PeticaoFundamentoMotivoMapper;
 import com.ts.juridico.domain.model.FundamentoJuridico;
 import com.ts.juridico.domain.model.MotivoJuridico;
 import com.ts.juridico.domain.model.Peticao;
-import com.ts.juridico.infrastructure.persistence.jpa.service.PeticaoFundamentoMotivoService;
+import com.ts.juridico.domain.service.PeticaoFundamentoMotivoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

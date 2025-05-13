@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class TextoBasePeticaoDTO {
+public class TextoBasePeticaoDto {
 
     private String labelFundamentoJuridico;
     private String enderecamento;

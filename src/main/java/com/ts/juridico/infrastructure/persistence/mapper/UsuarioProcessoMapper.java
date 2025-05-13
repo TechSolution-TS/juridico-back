@@ -1,6 +1,7 @@
 package com.ts.juridico.infrastructure.persistence.mapper;
 
 import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
+import com.ts.juridico.domain.model.UsuarioDocumento;
 import com.ts.juridico.domain.model.UsuarioProcesso;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,14 @@ public class UsuarioProcessoMapper {
                 .dataNascimento(LocalDate.parse(dto.getDataNascimento(), formatter))
                 .telefone(dto.getTelefone())
                 .senhaGov(dto.getSenhaGov())
+                .build();
+    }
+
+    public UsuarioDocumento dataToUsuarioDocumentoModel(Long id, String fileId, String processUuid) {
+        return UsuarioDocumento.builder()
+                .userId(id)
+                .fileId(fileId)
+                .processUuid(processUuid)
                 .build();
     }
 }
