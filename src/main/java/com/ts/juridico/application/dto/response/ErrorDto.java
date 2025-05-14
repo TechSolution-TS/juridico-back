@@ -1,9 +1,11 @@
 package com.ts.juridico.application.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@Builder
 @AllArgsConstructor
 public class ErrorDto {
     private String code;
