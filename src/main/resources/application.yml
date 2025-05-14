@@ -4,12 +4,9 @@ server:
 
 spring:
   datasource:
-#    url: jdbc:postgresql://localhost:5432/juridicoDB
-#    username: postgres
-#    password: admin
-    url: jdbc:postgresql://gondola.proxy.rlwy.net:52129/railway
-    username: postgres
-    password: gheqwljTvqVYuFKmPcmMuwoRNfiWbYAQ
+    url: "${URL_JDBC:jdbc:postgresql://localhost:5432/juridicoDB}"
+    username: "${USER_JDBC:postgres}"
+    password: "${PASS_JDBC:admin}"
   jpa:
     hibernate:
       ddl-auto: update
