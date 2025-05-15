@@ -26,8 +26,10 @@ public class GoogleDriveConfig {
 
     @Bean
     public Drive googleDrive() throws Exception {
+        String fixed = credentialsJson.replace("\\n", "\n");
+
         try (InputStream in = new ByteArrayInputStream(
-                credentialsJson.getBytes(StandardCharsets.UTF_8))) {
+                fixed.getBytes(StandardCharsets.UTF_8))) {
 
             GoogleCredential credential = GoogleCredential
                     .fromStream(in)
