@@ -1,6 +1,7 @@
 package com.ts.juridico.infrastructure.http.client;
 
 import com.google.api.client.http.FileContent;
+import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
@@ -23,14 +24,16 @@ public class GoogleClient {
     private final Drive drive;
 
     public File uploadFile(MultipartFile multipart) throws IOException {
-        Path temp = Files.createTempFile("upload-", multipart.getOriginalFilename());
-        Files.write(temp, multipart.getBytes());
-
         File fileMetadata = new File();
         fileMetadata.setName(multipart.getOriginalFilename());
         fileMetadata.setParents(List.of("18VRN3ya1K3RBclBSURPH8HafY3eYM2Og"));
 
-        FileContent content = new FileContent(multipart.getContentType(), temp.toFile());
+        // usa InputStreamContent para não precisar criar tmp
+        InputStreamContent content = new InputStreamContent(
+                multipart.getContentType(),
+                multipart.getInputStream()
+        );
+
         File uploaded = drive.files()
                 .create(fileMetadata, content)
                 .setFields("id, name, mimeType, webViewLink, webContentLink")
@@ -39,11 +42,7 @@ public class GoogleClient {
         Permission anyoneCanRead = new Permission()
                 .setType("anyone")
                 .setRole("reader");
-        drive.permissions()
-                .create(uploaded.getId(), anyoneCanRead)
-                .execute();
-
-        Files.deleteIfExists(temp);
+        drive.permissions().create(uploaded.getId(), anyoneCanRead).execute();
 
         return uploaded;
     }
