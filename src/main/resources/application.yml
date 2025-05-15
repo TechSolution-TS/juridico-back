@@ -19,6 +19,8 @@ security:
     secret: "${JWT_SECURITY:wF4mI7P+3S9URZdf93sXbB3dM08U91H06uZmwGBCh8rhjz5kH0BzD4KK2y2/YEX0Y6yfiQQ51lYDxYsA2gHZ0A==}"
     expirationMs: 360000
 
+credential:
+  google: "${GOOGLE_CREDENTIALS_JSON:}"
 
 scheduler:
   deactivate-time: 3600000

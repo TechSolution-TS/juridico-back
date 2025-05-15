@@ -21,7 +21,7 @@ public class GoogleDriveConfig {
     private static final String APPLICATION_NAME = "MeuApp";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
-    @Value("${GOOGLE_CREDENTIALS_JSON}")
+    @Value("${credential.google}")
     private String credentialsJson;
 
     @Bean
