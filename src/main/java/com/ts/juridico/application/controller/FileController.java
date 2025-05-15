@@ -7,6 +7,8 @@ import com.ts.juridico.domain.service.GoogleDriveService;
 import com.ts.juridico.domain.service.UsuarioService;
 import com.ts.juridico.infrastructure.exception.FileStorageException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FileController {
 
+    private static final Logger log = LoggerFactory.getLogger(FileController.class);
     private final GoogleDriveService driveService;
     private final UsuarioService usuarioService;
 
@@ -45,6 +48,7 @@ public class FileController {
                     .created(URI.create("/api/files/" + fileId))
                     .body(dto);
         } catch (Exception e) {
+            log.error("Falha no upload do arquivo", e);
             throw new FileStorageException("Não foi possível enviar arquivo", e);
         }
     }
