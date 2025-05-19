@@ -24,3 +24,7 @@ credential:
 
 scheduler:
   deactivate-time: 3600000
+
+openai:
+  api:
+    key: "${OPENAI_API_KEY:}"

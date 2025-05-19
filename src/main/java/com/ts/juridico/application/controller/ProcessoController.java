@@ -9,6 +9,7 @@ import com.ts.juridico.domain.model.Processo;
 import com.ts.juridico.domain.model.UsuarioDocumento;
 import com.ts.juridico.domain.model.UsuarioProcesso;
 import com.ts.juridico.domain.service.GoogleDriveService;
+import com.ts.juridico.domain.service.OpenAiChatService;
 import com.ts.juridico.domain.service.ProcessoService;
 import com.ts.juridico.domain.service.UsuarioService;
 import com.ts.juridico.infrastructure.exception.FileStorageException;
@@ -33,17 +34,20 @@ public class ProcessoController {
     private final GoogleDriveService googleDriveService;
     private final ProcessoMapper processoMapper;
     private final ArquivoModeloPeticaoMapper arquivoModeloPeticaoMapper;
+    private final OpenAiChatService openAiChatService;
 
     @PostMapping("/create/{fileId}")
     public ResponseEntity<String> createProcess(@PathVariable("fileId") String fileId) {
       try {
             UsuarioDocumento usuarioDocumento = usuarioService.searchDocumentById(fileId);
-            Processo processo = processoService.saveProcess(usuarioDocumento.getUserId());
+            ArquivoModeloPeticao arquivoModeloPeticao = googleDriveService.searchFileByFileId(fileId);
+            String summary = openAiChatService.resumePetitionChat(arquivoModeloPeticao);
+
+            Processo processo = processoService.saveProcess(usuarioDocumento.getUserId(), summary);
 
             usuarioDocumento.setProcessUuid(processo.getProcessoUuid());
             usuarioService.updateDocumentProcessUser(usuarioDocumento);
 
-            ArquivoModeloPeticao arquivoModeloPeticao = googleDriveService.searchFileByFileId(fileId);
             arquivoModeloPeticao.setType("peticao");
             googleDriveService.updateFile(arquivoModeloPeticao);
 

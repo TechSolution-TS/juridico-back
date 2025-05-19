@@ -37,4 +37,7 @@ public class Processo {
 
     @Column(name = "advogado")
     private String advogado;
+
+    @Column(name = "summary")
+    private String summary;
 }

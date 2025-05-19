@@ -21,4 +21,5 @@ public class ProcessoDto {
     private String advogado;
     private String telefone;
     private String gov;
+    private String summary;
 }

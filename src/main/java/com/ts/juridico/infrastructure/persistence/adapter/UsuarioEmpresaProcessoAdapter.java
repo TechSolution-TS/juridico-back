@@ -9,8 +9,6 @@ import com.ts.juridico.infrastructure.persistence.mapper.UsuarioEmpresaProcessoM
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 @RequiredArgsConstructor
 public class UsuarioEmpresaProcessoAdapter implements UsuarioEmpresaProcessoPort {

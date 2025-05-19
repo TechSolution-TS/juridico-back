@@ -16,9 +16,9 @@ public class ProcessoService {
     private final ProcessoPort processoPort;
     private final InfoProcessoUsuarioPort infoProcessoUsuarioPort;
 
-    public Processo saveProcess(Long userId) {
+    public Processo saveProcess(Long userId, String summary) {
         InfoProcessoUsuario infoProcessUser = infoProcessoUsuarioPort.findInfoProcessUser(userId);
-        return processoPort.saveProcess(userId, infoProcessUser.getAdvogadoResponsavel());
+        return processoPort.saveProcess(userId, infoProcessUser.getAdvogadoResponsavel(), summary);
     }
 
     public List<Processo> findAll() {

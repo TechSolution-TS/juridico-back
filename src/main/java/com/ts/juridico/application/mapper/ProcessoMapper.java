@@ -40,6 +40,7 @@ public class ProcessoMapper {
                 .telefone(usuarioProcesso.getTelefone())
                 .gov(usuarioProcesso.getSenhaGov())
                 .advogado(processo.getAdvogado())
+                .summary(processo.getSummary())
                 .build();
     }
 }
