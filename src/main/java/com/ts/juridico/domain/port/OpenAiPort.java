@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface OpenAiPort {
 
-    String resumePetition(List<ChatMessage> messages);
+    String summaryPetition(List<ChatMessage> messages);
 }

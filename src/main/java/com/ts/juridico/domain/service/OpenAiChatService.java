@@ -22,7 +22,7 @@ public class OpenAiChatService {
     private final Tika tika;
     private final OpenAiPort openAiPort;
 
-    public String resumePetitionChat(ArquivoModeloPeticao arquivoModeloPeticao) {
+    public String summaryPetitionChat(ArquivoModeloPeticao arquivoModeloPeticao) {
         try {
             String text = rest.execute(
                     arquivoModeloPeticao.getLinkDownload(),
@@ -46,9 +46,13 @@ public class OpenAiChatService {
                             "1. Identificação das Partes\n2. Objeto da Petição\n3. Fundamentação Jurídica\n4. Pedidos\n5. Observações Finais"));
             messages.add(new ChatMessage("user", text));
 
-            return openAiPort.resumePetition(messages);
+            return applyBoldHtml(openAiPort.summaryPetition(messages));
         } catch (Exception e) {
             throw new RuntimeException("Falha ao extrair texto: " + e.getMessage(), e);
         }
+    }
+
+    private String applyBoldHtml(String texto) {
+        return texto.replaceAll("(?m)^(\\d+\\. )\\*\\*(.*?)\\*\\*", "<strong>$1$2</strong>");
     }
 }

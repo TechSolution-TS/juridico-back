@@ -14,7 +14,7 @@ public class OpenAiAdapter implements OpenAiPort {
 
     private final OpenAiClient openAiClient;
 
-    public String resumePetition(List<ChatMessage> messages) {
-        return openAiClient.generateResume(messages);
+    public String summaryPetition(List<ChatMessage> messages) {
+        return openAiClient.generateSummary(messages);
     }
 }

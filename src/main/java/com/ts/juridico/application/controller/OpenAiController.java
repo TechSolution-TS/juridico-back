@@ -21,7 +21,7 @@ public class OpenAiController {
     @GetMapping("/{fileId}/summary")
     public ResponseEntity<String> getResumo(@PathVariable("fileId") String fileId) {
         ArquivoModeloPeticao arquivoModeloPeticao = googleDriveService.searchFileByFileId(fileId);
-        String resumo = openAiChatService.resumePetitionChat(arquivoModeloPeticao);
+        String resumo = openAiChatService.summaryPetitionChat(arquivoModeloPeticao);
 
         return ResponseEntity.ok(resumo);
     }

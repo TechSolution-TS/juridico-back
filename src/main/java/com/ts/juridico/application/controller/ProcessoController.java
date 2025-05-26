@@ -16,7 +16,6 @@ import com.ts.juridico.infrastructure.exception.FileStorageException;
 import com.ts.juridico.infrastructure.persistence.mapper.ArquivoModeloPeticaoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,7 +40,7 @@ public class ProcessoController {
       try {
             UsuarioDocumento usuarioDocumento = usuarioService.searchDocumentById(fileId);
             ArquivoModeloPeticao arquivoModeloPeticao = googleDriveService.searchFileByFileId(fileId);
-            String summary = openAiChatService.resumePetitionChat(arquivoModeloPeticao);
+            String summary = openAiChatService.summaryPetitionChat(arquivoModeloPeticao);
 
             Processo processo = processoService.saveProcess(usuarioDocumento.getUserId(), summary);
 

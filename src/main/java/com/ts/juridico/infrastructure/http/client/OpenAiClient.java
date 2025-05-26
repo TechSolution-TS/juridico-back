@@ -7,7 +7,6 @@ import com.theokanning.openai.completion.chat.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,7 +15,7 @@ public class OpenAiClient {
 
     private final OpenAiService openAi;
 
-    public String generateResume(List<ChatMessage> messages) {
+    public String generateSummary(List<ChatMessage> messages) {
         // Chama OpenAI Chat Completion
         ChatCompletionRequest req = ChatCompletionRequest.builder()
                 .model("gpt-3.5-turbo")

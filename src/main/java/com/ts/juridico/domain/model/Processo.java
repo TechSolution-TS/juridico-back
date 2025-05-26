@@ -38,6 +38,6 @@ public class Processo {
     @Column(name = "advogado")
     private String advogado;
 
-    @Column(name = "summary")
+    @Column(name = "summary", columnDefinition = "TEXT")
     private String summary;
 }
