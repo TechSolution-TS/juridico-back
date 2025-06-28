@@ -24,6 +24,8 @@ public class UsuarioContratoEmpresaMapper {
                 .tipoAvisoPrevio(dto.getTipoAvisoPrevio())
                 .tipoDemissao(dto.getTipoDemissao())
                 .ultimaRemuneracao(dto.getUltimaRemuneracao())
+                .userId(dto.getUsuarioProcesso())
+                .processoUuid(dto.getProcessoUuid())
                 .build();
     }
 }

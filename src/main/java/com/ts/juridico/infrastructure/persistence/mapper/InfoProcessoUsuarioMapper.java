@@ -19,6 +19,9 @@ public class InfoProcessoUsuarioMapper {
                 .cidade(dto.getCidade())
                 .dataProcesso(LocalDate.parse(dto.getDataProcesso(), formatter))
                 .advogadoResponsavel(dto.getAdvogadoResponsavel())
+                .tribunal(dto.getTribunal())
+                .userId(dto.getUsuarioProcesso())
+                .processoUuid(dto.getProcessoUuid())
                 .build();
     }
 }

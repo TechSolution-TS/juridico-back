@@ -29,4 +29,17 @@ public class InfoProcessoUsuarioAdapter implements InfoProcessoUsuarioPort {
                 .findFirst()
                 .orElseThrow(() -> new UserNotFoundException("Info with ID " + userId + " not found"));
     }
+
+    @Override
+    public InfoProcessoUsuario findInfoProcessUserByProcessoUuid(String processoUuid) {
+        return infoProcessoUsuarioJpaRepository.findByProcessoUuid(processoUuid)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException("Info with Processo " + processoUuid + " not found"));
+    }
+
+    @Override
+    public InfoProcessoUsuario save(InfoProcessoUsuario infoProcessoUsuario) {
+        return infoProcessoUsuarioJpaRepository.save(infoProcessoUsuario);
+    }
 }

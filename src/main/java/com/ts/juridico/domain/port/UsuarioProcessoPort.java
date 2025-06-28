@@ -10,9 +10,11 @@ public interface UsuarioProcessoPort {
 
     UsuarioProcesso saveUserProcess(UsuarioProcessoCadastroDto usuarioProcessoCadastroDto);
     UsuarioProcesso findUser(String cpf);
+    UsuarioProcesso findUserByProcessoUuid(String processoUuid);
     void saveDocumentProcess(Long id, String fileId, String processUuid);
     UsuarioDocumento findByFileId(String fileId);
     UsuarioProcesso findById(Long id);
     void updateDocumentProcess(UsuarioDocumento document);
+    List<UsuarioDocumento> findByUserIdAndProcessUuidNull(Long userId);
     List<UsuarioDocumento> findByProcessUuid(String processUuid);
 }

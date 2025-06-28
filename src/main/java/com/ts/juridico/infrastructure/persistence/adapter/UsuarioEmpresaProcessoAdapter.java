@@ -29,4 +29,12 @@ public class UsuarioEmpresaProcessoAdapter implements UsuarioEmpresaProcessoPort
                 .findFirst()
                 .orElseThrow(() -> new UserNotFoundException("Processo with ID " + userId + " not found"));
     }
+
+    @Override
+    public UsuarioEmpresaProcesso findEmpresaByProcessoUuid(String processoUuid) {
+        return usuarioEmpresaProcessoJpaRepository.findByProcessoUuid(processoUuid)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException("Processo with Processo " + processoUuid + " not found"));
+    }
 }

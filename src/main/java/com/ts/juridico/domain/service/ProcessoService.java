@@ -18,7 +18,7 @@ public class ProcessoService {
 
     public Processo saveProcess(Long userId, String summary) {
         InfoProcessoUsuario infoProcessUser = infoProcessoUsuarioPort.findInfoProcessUser(userId);
-        return processoPort.saveProcess(userId, infoProcessUser.getAdvogadoResponsavel(), summary);
+        return processoPort.saveProcess(userId, infoProcessUser.getAdvogadoResponsavel(), summary, infoProcessUser.getTribunal(), infoProcessUser.getProcessoUuid());
     }
 
     public List<Processo> findAll() {
@@ -27,5 +27,9 @@ public class ProcessoService {
 
     public Processo findByProcessUuid(String processUuid) {
         return processoPort.findByProcessUuid(processUuid);
+    }
+
+    public Processo save(Processo processo) {
+        return processoPort.save(processo);
     }
 }

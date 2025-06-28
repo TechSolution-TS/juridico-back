@@ -44,4 +44,7 @@ public class UsuarioProcesso {
 
     @Column(name = "senha_gov", length = 100)
     private String senhaGov;
+
+    @Column(name = "processo_uuid")
+    private String processoUuid;
 }

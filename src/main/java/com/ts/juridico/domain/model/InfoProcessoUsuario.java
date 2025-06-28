@@ -17,10 +17,10 @@ public class InfoProcessoUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String relatorio;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String observacao;
 
     @Column(length = 100)
@@ -32,7 +32,13 @@ public class InfoProcessoUsuario {
     @Column(name = "advogado_responsavel", length = 100)
     private String advogadoResponsavel;
 
+    @Column
+    private String tribunal;
+
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UsuarioProcesso userId;
+
+    @Column(name = "processo_uuid")
+    private String processoUuid;
 }

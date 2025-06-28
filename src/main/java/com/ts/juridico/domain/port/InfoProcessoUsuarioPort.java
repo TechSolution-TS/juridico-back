@@ -7,5 +7,6 @@ public interface InfoProcessoUsuarioPort {
 
     InfoProcessoUsuario saveInfoProcessUser(UsuarioProcessoCadastroDto usuarioProcessoCadastroDto);
     InfoProcessoUsuario findInfoProcessUser(Long userId);
-
+    InfoProcessoUsuario findInfoProcessUserByProcessoUuid(String processoUuid);
+    InfoProcessoUsuario save(InfoProcessoUsuario infoProcessoUsuario);
 }

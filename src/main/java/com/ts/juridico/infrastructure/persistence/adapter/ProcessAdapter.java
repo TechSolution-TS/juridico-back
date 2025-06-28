@@ -17,8 +17,8 @@ public class ProcessAdapter implements ProcessoPort {
     private final ProcessMapper processMapper;
 
     @Override
-    public Processo saveProcess(Long userId, String advogado, String summary) {
-        return processoJpaRepository.save(processMapper.dataToModel(userId, "pendente", advogado, summary));
+    public Processo saveProcess(Long userId, String advogado, String summary, String tribunal, String processoUuid) {
+        return processoJpaRepository.save(processMapper.dataToModel(userId, "pendente", advogado, summary, tribunal, processoUuid));
     }
 
     @Override
@@ -30,5 +30,10 @@ public class ProcessAdapter implements ProcessoPort {
     public Processo findByProcessUuid(String processUuid) {
         return processoJpaRepository.findByProcessoUuid(processUuid)
                 .orElseThrow(() ->  new RuntimeException("Processo com UUID inexistente!"));
+    }
+
+    @Override
+    public Processo save(Processo processo) {
+        return processoJpaRepository.save(processo);
     }
 }

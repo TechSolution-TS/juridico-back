@@ -9,8 +9,17 @@ spring:
     password: "${PASS_JDBC:admin}"
   jpa:
     hibernate:
-      ddl-auto: update
+#      ddl-auto: update
     show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+      enabled: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+    contexts: development
 
 security:
   api:

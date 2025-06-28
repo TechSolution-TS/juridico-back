@@ -30,4 +30,12 @@ public class UsuarioContratoEmpresaAdapter implements UsuarioContratoEmpresaPort
                 .findFirst()
                 .orElseThrow(() -> new UserNotFoundException("Contract with ID " + userId + " not found"));
     }
+
+    @Override
+    public UsuarioContratoEmpresa findContractEnterpriseByProcessUuid(String processoUuid) {
+        return usuarioContratoEmpresaJpaRepository.findByProcessoUuid(processoUuid)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException("Contract with Processo " + processoUuid + " not found"));
+    }
 }

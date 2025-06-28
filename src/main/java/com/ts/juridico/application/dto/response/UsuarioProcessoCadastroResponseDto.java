@@ -1,4 +1,4 @@
-package com.ts.juridico.application.dto.request;
+package com.ts.juridico.application.dto.response;
 
 import com.ts.juridico.domain.model.UsuarioProcesso;
 import lombok.AllArgsConstructor;
@@ -12,9 +12,8 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @Builder
-public class UsuarioProcessoCadastroDto {
+public class UsuarioProcessoCadastroResponseDto {
 
-    private UsuarioProcesso usuarioProcesso;
     private String rg;
     private String cpf;
     private String nome;
@@ -44,6 +43,5 @@ public class UsuarioProcessoCadastroDto {
     private String advogadoResponsavel;
     private String tribunal;
     private String numeroProcesso;
-    private String processoUuid;
     private String status;
 }

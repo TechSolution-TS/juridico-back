@@ -4,10 +4,8 @@ import com.ts.juridico.application.dto.response.ArquivoModeloPeticaoDto;
 import com.ts.juridico.application.dto.response.ProcessoDto;
 import com.ts.juridico.application.dto.response.UploadResponseDto;
 import com.ts.juridico.application.mapper.ProcessoMapper;
-import com.ts.juridico.domain.model.ArquivoModeloPeticao;
-import com.ts.juridico.domain.model.Processo;
-import com.ts.juridico.domain.model.UsuarioDocumento;
-import com.ts.juridico.domain.model.UsuarioProcesso;
+import com.ts.juridico.domain.model.*;
+import com.ts.juridico.domain.port.InfoProcessoUsuarioPort;
 import com.ts.juridico.domain.service.GoogleDriveService;
 import com.ts.juridico.domain.service.OpenAiChatService;
 import com.ts.juridico.domain.service.ProcessoService;
@@ -46,6 +44,12 @@ public class ProcessoController {
 
             usuarioDocumento.setProcessUuid(processo.getProcessoUuid());
             usuarioService.updateDocumentProcessUser(usuarioDocumento);
+
+            List<UsuarioDocumento> documentos = usuarioService.searchDocumentByUserId(usuarioDocumento.getUserId());
+            documentos.forEach(doc -> {
+                doc.setProcessUuid(processo.getProcessoUuid());
+                usuarioService.updateDocumentProcessUser(doc);
+            });
 
             arquivoModeloPeticao.setType("peticao");
             googleDriveService.updateFile(arquivoModeloPeticao);

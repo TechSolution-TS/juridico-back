@@ -24,6 +24,7 @@ public class UsuarioProcessoMapper {
                 .dataNascimento(LocalDate.parse(dto.getDataNascimento(), formatter))
                 .telefone(dto.getTelefone())
                 .senhaGov(dto.getSenhaGov())
+                .processoUuid(dto.getProcessoUuid())
                 .build();
     }
 

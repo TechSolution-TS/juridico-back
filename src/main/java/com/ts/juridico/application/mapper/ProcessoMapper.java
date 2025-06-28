@@ -41,6 +41,7 @@ public class ProcessoMapper {
                 .gov(usuarioProcesso.getSenhaGov())
                 .advogado(processo.getAdvogado())
                 .summary(processo.getSummary())
+                .numeroProcesso(processo.getNumeroProcesso())
                 .build();
     }
 }

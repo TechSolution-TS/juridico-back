@@ -51,4 +51,7 @@ public class UsuarioContratoEmpresa {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UsuarioProcesso userId;
+
+    @Column(name = "processo_uuid")
+    private String processoUuid;
 }

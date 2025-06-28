@@ -8,13 +8,14 @@ import java.util.UUID;
 @Component
 public class ProcessMapper {
 
-    public Processo dataToModel(Long userId, String status, String advogado, String summary) {
+    public Processo dataToModel(Long userId, String status, String advogado, String summary, String tribunal, String processoUuid) {
         return Processo.builder()
                 .userId(userId)
-                .processoUuid(UUID.randomUUID().toString())
+                .processoUuid(processoUuid)
                 .status(status)
                 .advogado(advogado)
                 .summary(summary)
+                .tribunal(tribunal)
                 .build();
     }
 }

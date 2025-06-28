@@ -7,4 +7,5 @@ public interface UsuarioContratoEmpresaPort {
 
     UsuarioContratoEmpresa saveContractEnterprise(UsuarioProcessoCadastroDto dto);
     UsuarioContratoEmpresa findContractEnterprise(Long userId);
+    UsuarioContratoEmpresa findContractEnterpriseByProcessUuid(String processoUuid);
 }

@@ -36,6 +36,10 @@ public class GoogleDriveService {
         return arquivoModeloPeticaoPort.findByArquivoId(arquivoId);
     }
 
+    public void deleteFileByFileId(String arquivoId) {
+        arquivoModeloPeticaoPort.alteraTipo(arquivoId, "deletado");
+    }
+
     public ArquivoModeloPeticao updateFile(ArquivoModeloPeticao arquivo) {
         return arquivoModeloPeticaoPort.update(arquivo);
     }

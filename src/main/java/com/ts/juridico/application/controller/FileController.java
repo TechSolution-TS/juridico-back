@@ -58,6 +58,12 @@ public class FileController {
         return ResponseEntity.ok(driveService.searchFiles(type));
     }
 
+    @DeleteMapping("/{fileId}")
+    public ResponseEntity<String> deleteFile(@PathVariable String fileId) {
+        driveService.deleteFileByFileId(fileId);
+        return ResponseEntity.ok("Operação realiza com sucesso!");
+    }
+
     @GetMapping("/driver")
     public ResponseEntity<List<Map<String, String>>> listAll() {
         try {

@@ -5,6 +5,7 @@ import com.ts.juridico.domain.model.ArquivoModeloPeticao;
 import com.ts.juridico.domain.port.ArquivoModeloPeticaoPort;
 import com.ts.juridico.infrastructure.persistence.jpa.ArquivoModeloPeticaoJpaRepository;
 import com.ts.juridico.infrastructure.persistence.mapper.ArquivoModeloPeticaoMapper;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -34,5 +35,13 @@ public class ArquivoModeloPeticaoAdapter implements ArquivoModeloPeticaoPort {
     @Override
     public ArquivoModeloPeticao update(ArquivoModeloPeticao arquivo) {
         return arquivoModeloPeticaoJpaRepository.save(arquivo);
+    }
+
+    @Override
+    public void alteraTipo(String arquivoId, String novoTipo) {
+        int updated = arquivoModeloPeticaoJpaRepository.updateTypeByArquivoId(arquivoId, novoTipo);
+        if (updated == 0) {
+            throw new EntityNotFoundException("Nenhum registro com arquivoId=" + arquivoId);
+        }
     }
 }

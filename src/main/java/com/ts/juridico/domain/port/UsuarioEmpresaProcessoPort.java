@@ -8,4 +8,5 @@ public interface UsuarioEmpresaProcessoPort {
     UsuarioEmpresaProcesso saveUserEnterprise(UsuarioProcessoCadastroDto usuarioProcessoCadastroDto);
 
     UsuarioEmpresaProcesso findEmpresaProcesso(Long userId);
+    UsuarioEmpresaProcesso findEmpresaByProcessoUuid(String processoUuid);
 }

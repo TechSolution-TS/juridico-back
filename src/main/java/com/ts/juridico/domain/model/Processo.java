@@ -40,4 +40,7 @@ public class Processo {
 
     @Column(name = "summary", columnDefinition = "TEXT")
     private String summary;
+
+    @Column(name = "numero_processo")
+    private String numeroProcesso;
 }

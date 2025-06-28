@@ -22,4 +22,5 @@ public class ProcessoDto {
     private String telefone;
     private String gov;
     private String summary;
+    private String numeroProcesso;
 }

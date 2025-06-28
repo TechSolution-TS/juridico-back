@@ -11,4 +11,5 @@ public interface UsuarioDocumentoJpaRepository extends JpaRepository<UsuarioDocu
     Optional<UsuarioDocumento> findByFileId(String fileId);
 
     List<UsuarioDocumento> findByProcessUuid(String processUuid);
+    List<UsuarioDocumento> findAllByUserIdAndProcessUuidNull(Long userId);
 }

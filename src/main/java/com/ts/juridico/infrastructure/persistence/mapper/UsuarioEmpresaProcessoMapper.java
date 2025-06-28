@@ -13,6 +13,8 @@ public class UsuarioEmpresaProcessoMapper {
                 .cnpj(dto.getCnpjEmpresa())
                 .nome(dto.getNomeEmpresa())
                 .endereco(dto.getEnderecoEmpresa())
+                .userId(dto.getUsuarioProcesso())
+                .processoUuid(dto.getProcessoUuid())
                 .build();
     }
 }
