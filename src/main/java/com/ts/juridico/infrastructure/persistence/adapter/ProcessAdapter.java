@@ -18,7 +18,7 @@ public class ProcessAdapter implements ProcessoPort {
 
     @Override
     public Processo saveProcess(Long userId, String advogado, String summary, String tribunal, String processoUuid) {
-        return processoJpaRepository.save(processMapper.dataToModel(userId, "pendente", advogado, summary, tribunal, processoUuid));
+        return processoJpaRepository.save(processMapper.dataToModel(userId, "pendente-protocolo", advogado, summary, tribunal, processoUuid));
     }
 
     @Override
