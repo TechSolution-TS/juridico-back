@@ -24,7 +24,9 @@ public class ProcessoMapper {
                 .processoUuid(processo.getProcessoUuid())
                 .status(processo.getStatus())
                 .data(processo.getDataProcesso().toString())
+                .dataAtualizacaoStatus(processo.getDataAtualizacaoStatus() != null ? processo.getDataAtualizacaoStatus().toString() : " - ")
                 .tribunal(processo.getTribunal() != null? processo.getTribunal() : " - ")
+                .numeroProcesso(processo.getNumeroProcesso() != null ? processo.getNumeroProcesso() : " - " )
                 .build();
     }
 
@@ -34,6 +36,7 @@ public class ProcessoMapper {
                 .processoUuid(processo.getProcessoUuid())
                 .status(processo.getStatus())
                 .data(processo.getDataProcesso().toString())
+                .dataAtualizacaoStatus(processo.getDataAtualizacaoStatus() != null ? processo.getDataAtualizacaoStatus().toString() : " - ")
                 .cpf(usuarioProcesso.getCpf())
                 .nome(usuarioProcesso.getNome())
                 .tribunal(processo.getTribunal() != null? processo.getTribunal() : " - ")

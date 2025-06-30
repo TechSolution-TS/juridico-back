@@ -7,15 +7,27 @@ import com.ts.juridico.infrastructure.persistence.jpa.UsuarioAvogadoJpaRepositor
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class UsuarioAdapter implements UsuarioPort {
 
     private final UsuarioAvogadoJpaRepository usuarioAvogadoJpaRepository;
 
-    public Usuario findByName(String userName) {
-        return usuarioAvogadoJpaRepository.findByName(userName).orElseThrow(
+    public Usuario findByLogin(String userName) {
+        return usuarioAvogadoJpaRepository.findByLogin(userName).orElseThrow(
                 () -> new UserNotFoundException("Invalid credentials"));
+    }
+
+    @Override
+    public void save(Usuario advogado) {
+        usuarioAvogadoJpaRepository.save(advogado);
+    }
+
+    @Override
+    public List<Usuario> findAll() {
+        return usuarioAvogadoJpaRepository.findAll();
     }
 }
 

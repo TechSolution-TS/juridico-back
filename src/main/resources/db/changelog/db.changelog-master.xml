@@ -10,5 +10,7 @@
     <include file="db/changelog/changes/0001-add-tribunal-column.xml"/>
     <include file="db/changelog/changes/0002-add-processuuid-column.xml"/>
     <include file="db/changelog/changes/0003-add-numeroprocesso-column.xml"/>
-
+    <include file="db/changelog/changes/0004-add-dataatualizacaostatus-column.xml"/>
+    <include file="db/changelog/changes/0005-add-role-column.xml"/>
+    <include file="db/changelog/changes/006-add-user-column.xml"/>
 </databaseChangeLog>

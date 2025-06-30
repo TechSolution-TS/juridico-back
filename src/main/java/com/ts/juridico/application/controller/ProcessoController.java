@@ -5,7 +5,6 @@ import com.ts.juridico.application.dto.response.ProcessoDto;
 import com.ts.juridico.application.dto.response.UploadResponseDto;
 import com.ts.juridico.application.mapper.ProcessoMapper;
 import com.ts.juridico.domain.model.*;
-import com.ts.juridico.domain.port.InfoProcessoUsuarioPort;
 import com.ts.juridico.domain.service.GoogleDriveService;
 import com.ts.juridico.domain.service.OpenAiChatService;
 import com.ts.juridico.domain.service.ProcessoService;

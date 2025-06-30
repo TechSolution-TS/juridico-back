@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Builder
@@ -17,6 +19,7 @@ public class ProcessoDto {
     private String cpf;
     private String status;
     private String data;
+    private String dataAtualizacaoStatus;
     private String tribunal;
     private String advogado;
     private String telefone;

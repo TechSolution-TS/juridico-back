@@ -1,16 +1,17 @@
 package com.ts.juridico.application.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class AuthResponseDto {
-    private String token;
-    private String userUuid;
-    private String role;
+@Builder
+public class AuthCreateUserResponseDto {
+
     private String name;
-    private String user;
+    private String username;
+    private String role;
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,6 +57,10 @@ public class UsuarioService {
         }
 
         if (StringUtils.hasText(usuarioDto.getStatus())) {
+            if (!processo.getStatus().equals(usuarioDto.getStatus())) {
+                processo.setDataAtualizacaoStatus(LocalDate.now());
+            }
+
             processo.setStatus(usuarioDto.getStatus());
         }
 

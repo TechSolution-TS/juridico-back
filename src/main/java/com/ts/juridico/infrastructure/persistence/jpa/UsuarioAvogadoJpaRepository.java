@@ -10,5 +10,5 @@ public interface UsuarioAvogadoJpaRepository extends JpaRepository<Usuario, Long
     Usuario getReferenceByUuid(String uuid);
     Optional<Usuario> findByUuid(String uuid);
 
-    Optional<Usuario> findByName(String email);
+    Optional<Usuario> findByLogin(String email);
 }

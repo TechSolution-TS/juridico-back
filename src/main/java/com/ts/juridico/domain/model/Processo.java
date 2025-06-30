@@ -35,6 +35,9 @@ public class Processo {
     @Column(name = "data_processo", updatable = false)
     private LocalDate dataProcesso;
 
+    @Column(name = "data_atualizacao_status")
+    private LocalDate dataAtualizacaoStatus;
+
     @Column(name = "advogado")
     private String advogado;
 

@@ -19,9 +19,15 @@ public class Usuario {
     @Column(nullable = false, length = 200)
     private String name;
 
+    @Column(length = 100)
+    private String login;
+
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
     private String uuid;
+
+    @Column(name = "role")
+    private String role;
 }

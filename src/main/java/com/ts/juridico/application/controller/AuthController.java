@@ -1,15 +1,17 @@
 package com.ts.juridico.application.controller;
 
+import com.ts.juridico.application.dto.request.AuthCreateUserRequestDto;
 import com.ts.juridico.application.dto.request.AuthRequestDto;
+import com.ts.juridico.application.dto.response.AuthCreateUserResponseDto;
 import com.ts.juridico.application.dto.response.AuthResponseDto;
+import com.ts.juridico.domain.model.Usuario;
 import com.ts.juridico.domain.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -27,5 +29,22 @@ public class AuthController {
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+    }
+
+    @PostMapping("/login/create")
+    public ResponseEntity<?> login(@RequestBody AuthCreateUserRequestDto authRequest) {
+        Usuario user = authService.create(authRequest);
+
+        if(user != null) {
+            return ResponseEntity.ok(user);
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<?> searchUsers() {
+        List<AuthCreateUserResponseDto> all = authService.findAll();
+        return ResponseEntity.ok(all);
     }
 }
