@@ -14,7 +14,13 @@ public class OpenAiAdapter implements OpenAiPort {
 
     private final OpenAiClient openAiClient;
 
+    @Override
     public String summaryPetition(List<ChatMessage> messages) {
         return openAiClient.generateSummary(messages);
+    }
+
+    @Override
+    public String generatePetition(String systemMessage, String userMessage) {
+       return openAiClient.chamarModeloFineTuned(systemMessage, userMessage);
     }
 }

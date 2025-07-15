@@ -7,4 +7,5 @@ import java.util.List;
 public interface OpenAiPort {
 
     String summaryPetition(List<ChatMessage> messages);
+    String generatePetition(String systemMessage, String userMessage);
 }
