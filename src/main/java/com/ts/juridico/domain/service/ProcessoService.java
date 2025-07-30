@@ -32,4 +32,8 @@ public class ProcessoService {
     public Processo save(Processo processo) {
         return processoPort.save(processo);
     }
+
+    public List<Processo> findByUserId(Long userId) {
+        return processoPort.findByUserId(userId);
+    }
 }

@@ -10,4 +10,5 @@ public interface ProcessoPort {
     List<Processo> findAll();
     Processo findByProcessUuid(String processUuid);
     Processo save(Processo processo);
+    List<Processo> findByUserId(Long userId);
 }

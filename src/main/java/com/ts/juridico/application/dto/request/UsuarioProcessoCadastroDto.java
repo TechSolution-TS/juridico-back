@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Builder
 public class UsuarioProcessoCadastroDto {
 
+    private Long id;
     private UsuarioProcesso usuarioProcesso;
     private String rg;
     private String cpf;

@@ -2,6 +2,7 @@ package com.ts.juridico.domain.service;
 
 import com.google.gson.Gson;
 import com.theokanning.openai.completion.chat.ChatMessage;
+import com.ts.juridico.application.dto.request.DadosChatClienteRequestDto;
 import com.ts.juridico.application.dto.request.DadosPeticaoRequestDto;
 import com.ts.juridico.domain.model.ArquivoModeloPeticao;
 import com.ts.juridico.domain.port.OpenAiPort;
@@ -51,6 +52,44 @@ public class OpenAiChatService {
             return applyBoldHtml(openAiPort.summaryPetition(messages));
         } catch (Exception e) {
             throw new RuntimeException("Falha ao extrair texto: " + e.getMessage(), e);
+        }
+    }
+
+    public String juridicoChat(String textoSolicitado) {
+        try {
+            ChatMessage systemMessage = new ChatMessage("system",
+                    "Você é um assistente jurídico inteligente e confiável. Responda com clareza, objetividade e linguagem profissional. " +
+                            "Você pode realizar tarefas como: 1) Melhorar a redação de textos jurídicos; 2) Tirar dúvidas sobre Direito; " +
+                            "3) Explicar expressões jurídicas; 4) Sugerir argumentos legais; 5) Corrigir gramática em textos jurídicos; " +
+                            "6) Resumir conteúdos legais ou petições. Sempre responda com base no contexto fornecido pelo usuário."
+            );
+
+            List<ChatMessage> messages = new ArrayList<>();
+            messages.add(systemMessage);
+            messages.add(new ChatMessage("user", textoSolicitado));
+            return openAiPort.summaryPetition(messages);
+        } catch (Exception e) {
+            throw new RuntimeException("Falha ao extrair texto: " + e.getMessage(), e);
+        }
+    }
+
+    public String chatCliente(DadosChatClienteRequestDto dados) {
+        try {
+            String clienteInfo = dados.getClienteInfo();
+            String pergunta = dados.getSolicitacao();
+
+            ChatMessage systemMessage = new ChatMessage("system", getClientSystemPrompt());
+
+            String contextoCompleto = buildClientContext(clienteInfo, pergunta);
+
+            List<ChatMessage> messages = new ArrayList<>();
+            messages.add(systemMessage);
+            messages.add(new ChatMessage("user", contextoCompleto));
+
+            return openAiPort.summaryPetition(messages);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Falha ao processar pergunta do cliente: " + e.getMessage(), e);
         }
     }
 
@@ -318,5 +357,74 @@ public class OpenAiChatService {
         String prompt = "DADOS DO CLIENTE: Nome: Paulo Ricardo Silva, brasileiro, divorciado, porteiro, RG 9876543 PC/PA, CPF 456.789.123-99, Rua Nova Esperança, 789, Jaderlândia, CEP 68700-020, Capanema/PA. DADOS DA EMPRESA: Condomínio Residencial Bela Vista, CNPJ 11.222.333/0001-44, Rua das Acácias, 200, Centro, CEP 68700-001, Capanema/PA. DADOS CONTRATUAIS: Admissão: 05/06/2021, Rescisão: 20/11/2024, Função: porteiro, Salário: R$ 1.580,00, Jornada: 22h às 06h, CTPS não assinada, Regime: 6x1. PEDIDOS: rescisão indireta, adicional noturno, horas extras, FGTS + 40%, verbas rescisórias, dano moral, TRCT. VARA: Capanema/PA";
 
         return openAiPort.generatePetition(systemMessage, prompt);
+    }
+
+    private String getClientSystemPrompt() {
+        return "Você é um assistente de atendimento ao cliente de um escritório de advocacia especializado em Direito do Trabalho. " +
+                "Responda como se fosse um atendente experiente, cordial e profissional.\n\n" +
+
+                "INSTRUÇÕES IMPORTANTES:\n" +
+                "1. Use linguagem clara, amigável e sem jargões jurídicos excessivos\n" +
+                "2. Seja empático e compreensivo com as preocupações do cliente\n" +
+                "3. Sempre base suas respostas nas informações específicas do processo do cliente\n" +
+                "4. Se não souber algo específico, seja honesto e sugira contato direto com o advogado\n" +
+                "5. Mantenha um tom profissional mas caloroso\n" +
+                "6. Organize respostas longas em tópicos para facilitar a leitura\n" +
+                "7. Explique termos jurídicos quando necessário\n" +
+                "8. Foque em tranquilizar o cliente e fornecer informações úteis\n\n" +
+
+                "TIPOS DE RESPOSTA:\n" +
+                "- Para perguntas sobre STATUS: explique o que significa o status atual e próximos passos\n" +
+                "- Para perguntas sobre PRAZOS: informe prazos relevantes e sua importância\n" +
+                "- Para perguntas sobre DOCUMENTOS: liste o que pode ser necessário\n" +
+                "- Para perguntas sobre VALORES: explique de forma geral sem dar valores específicos\n" +
+                "- Para perguntas FORA do escopo jurídico: redirecione educadamente para o processo\n\n" +
+
+                "FORMATO DA RESPOSTA:\n" +
+                "- Comece sempre cumprimentando o cliente pelo nome\n" +
+                "- Use emojis moderadamente para humanizar (😊, 📋, ⏰, etc.)\n" +
+                "- Termine sempre oferecendo ajuda adicional\n" +
+                "- Se necessário, forneça informações de contato do escritório";
+    }
+
+    private String buildClientContext(String clienteInfoJson, String pergunta) {
+        try {
+            StringBuilder contexto = new StringBuilder();
+            contexto.append("CONTEXTO DO ATENDIMENTO:\n");
+            contexto.append("O cliente está fazendo a seguinte pergunta sobre seu processo: ").append(pergunta).append("\n\n");
+            contexto.append("DADOS DO CLIENTE E PROCESSO(S):\n");
+            contexto.append(clienteInfoJson).append("\n\n");
+            contexto.append("INSTRUÇÕES PARA RESPOSTA:\n");
+            contexto.append("- Use as informações específicas do processo para responder\n");
+            contexto.append("- Seja claro sobre o status atual do processo\n");
+            contexto.append("- Explique próximos passos quando relevante\n");
+            contexto.append("- Se a pergunta não estiver relacionada ao processo, oriente educadamente\n");
+            contexto.append("- Mantenha tom profissional mas amigável\n");
+            contexto.append("- Cumprimente o cliente pelo primeiro nome\n");
+
+            return contexto.toString();
+
+        } catch (Exception e) {
+            return "O cliente " + " está perguntando: " + pergunta +
+                    "\nDados do processo: " + clienteInfoJson +
+                    "\nResponda de forma amigável e profissional baseado nas informações disponíveis.";
+        }
+    }
+
+    private String formatarStatusParaCliente(String status) {
+        switch (status.toLowerCase()) {
+            case "em-andamento":
+                return "Em Andamento - Seu processo está sendo acompanhado ativamente";
+            case "prazo-para-resposta":
+                return "Aguardando Prazo - Há um prazo em curso que está sendo observado";
+            case "conclusos-para-julgamento":
+                return "Aguardando Julgamento - Seu processo está na fila para decisão do juiz";
+            case "arquivado":
+                return "Arquivado - Processo foi finalizado";
+            case "pendente-protocolo":
+                return "Pendente de Protocolo - Documentos sendo preparados para envio";
+            default:
+                return status;
+        }
     }
 }

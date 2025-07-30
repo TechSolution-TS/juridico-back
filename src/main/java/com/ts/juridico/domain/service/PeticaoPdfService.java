@@ -19,6 +19,7 @@ import com.itextpdf.layout.properties.UnitValue;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Image;
 import com.ts.juridico.application.dto.response.PeticaoResponseDto;
+import com.ts.juridico.domain.model.enums.MotivoRescisao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import com.itextpdf.layout.borders.Border;
 import com.itextpdf.io.font.FontProgramFactory;
 
 import java.io.*;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
@@ -42,6 +44,9 @@ public class PeticaoPdfService {
         String textoJusticaGratuita = peticaoDados.getTextoJusticaGratuita();
         String textoHonorariosSucumbenciais = peticaoDados.getTextoHonorariosSucumbenciais();
         String textoInconstitucionalidade223G = peticaoDados.getTextoInconstitucionalidade223G();
+        String textoContratoTrabalho = peticaoDados.getTextoContratoTrabalho();
+        String textoTextoCtpDifJornada = peticaoDados.getTextoTextoCtpDifJornada();
+        String textoFuncaoServico = peticaoDados.getTextoFuncoesServicosGerais();
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             PdfWriter writer = new PdfWriter(baos);
@@ -112,7 +117,15 @@ public class PeticaoPdfService {
                 e.printStackTrace();
             }
 
+            if (textoInconstitucionalidade223G != null) {
+                adicionarTextoInconstitucionalidade223G(document, textoInconstitucionalidade223G, fontNormal, fontNegrito);
+            }
 
+            if (peticaoDados.getJuizoDigital()) {
+                adicionarTextoJuizoDigital(document, fontNormal, fontNegrito);
+            }
+
+            adicionarTextoDosFatos(document, peticaoDados.getMotivoRescisao(), textoContratoTrabalho, fontNormal, fontNegrito, textoTextoCtpDifJornada, textoFuncaoServico);
 
             // TEXTO DA PETIÇÃO
             try {
@@ -143,14 +156,14 @@ public class PeticaoPdfService {
                 e.printStackTrace();
             }
 
-            try {
-                System.out.println("Adicionando rodapé...");
-//                inserirRodape(pdfDoc);
-                System.out.println("Rodapé adicionado com sucesso");
-            } catch (Exception e) {
-                System.err.println("Erro no rodapé: " + e.getMessage());
-                e.printStackTrace();
-            }
+//            try {
+//                System.out.println("Adicionando rodapé...");
+////                inserirRodape(pdfDoc);
+//                System.out.println("Rodapé adicionado com sucesso");
+//            } catch (Exception e) {
+//                System.err.println("Erro no rodapé: " + e.getMessage());
+//                e.printStackTrace();
+//            }
 
             document.close();
             System.out.println("PDF gerado com sucesso");
@@ -393,7 +406,6 @@ public class PeticaoPdfService {
                 .setTextAlignment(TextAlignment.JUSTIFIED)
                 .setFirstLineIndent(25)
                 .setMultipliedLeading(1.5f)
-                .setMarginTop(-4)
                 .setMarginLeft(50)
                 .setMarginBottom(10);
 
@@ -406,9 +418,28 @@ public class PeticaoPdfService {
             return;
         }
 
+        try {
+            var imageData = ImageDataFactory.create(new ClassPathResource("static/logo_ts_juridico.png").getURL());
+            Image logo = new Image(imageData)
+                    .scaleToFit(360, 160)
+                    .setHorizontalAlignment(HorizontalAlignment.CENTER)
+                    .setMarginLeft(68)
+                    .setMarginTop(-65);
+            document.add(logo);
+        } catch (Exception e) {
+            document.add(new Paragraph(" "));
+        }
+
+        Paragraph fls = new Paragraph("Fls.: 3")
+                .setFont(fontNormal)
+                .setFontSize(9)
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFixedPosition(460, 820, 100);
+        document.add(fls);
+
         Paragraph titulo = new Paragraph()
                 .add(new Text("2. ").setFont(fontNegrito).setFontSize(11))
-                .add(new Text("DA CONDENAÇÃO DO RECLAMANTE AO PAGAMENTO DE HONORÁRIOS SUCUMBENCIAIS. A INCONSTITUCIONALIDADE DOS ARTS. 790-B, CAPUT E § 4º, E 791-A, § 4º DA CLT")
+                .add(new Text(" DA CONDENAÇÃO DO RECLAMANTE AO PAGAMENTO DE HONORÁRIOS SUCUMBENCIAIS. A INCONSTITUCIONALIDADE DOS ARTS. 790-B, CAPUT E § 4º, E 791-A, § 4º DA CLT")
                         .setFont(fontNegrito)
                         .setUnderline()
                         .setFontSize(11))
@@ -441,13 +472,13 @@ public class PeticaoPdfService {
             }
         }
 
-        document.add(new Paragraph("\n"));
+        document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
     }
 
     private void adicionarRecursoDeRevista(Document document, String texto, PdfFont fontNormal, PdfFont fontNegrito) {
         Table table = new Table(UnitValue.createPercentArray(1))
-                .setWidth(UnitValue.createPercentValue(45))  // Mais estreita
-                .setHorizontalAlignment(HorizontalAlignment.RIGHT)  // Alinhada à direita
+                .setWidth(UnitValue.createPercentValue(45))
+                .setHorizontalAlignment(HorizontalAlignment.RIGHT)
                 .setMarginTop(10);
 
         Cell cell = new Cell();
@@ -516,15 +547,33 @@ public class PeticaoPdfService {
     }
 
     public void adicionarTextoInconstitucionalidade223G(Document document, String texto, PdfFont fontNormal, PdfFont fontNegrito) {
+        try {
+            var imageData = ImageDataFactory.create(new ClassPathResource("static/logo_ts_juridico.png").getURL());
+            Image logo = new Image(imageData)
+                    .scaleToFit(360, 160)
+                    .setHorizontalAlignment(HorizontalAlignment.CENTER)
+                    .setMarginLeft(68)
+                    .setMarginTop(-65);
+            document.add(logo);
+        } catch (Exception e) {
+            document.add(new Paragraph(" "));
+        }
+
+        Paragraph fls = new Paragraph("Fls.: 4")
+                .setFont(fontNormal)
+                .setFontSize(9)
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFixedPosition(460, 820, 100);
+        document.add(fls);
         Paragraph titulo = new Paragraph()
                 .add(new Text("3. ").setFont(fontNegrito).setFontSize(12))
                 .add(new Text("DA INCONSTITUCIONALIDADE DO ARTIGO 223-G DA CLT – ")
                         .setFont(fontNegrito).setUnderline())
                 .add(new Text("ENTENDIMENTO PREDOMINANTE NO ÂMBITO DO TRT 8ª REGIÃO")
                         .setFont(fontNegrito).setUnderline())
-                .setTextAlignment(TextAlignment.LEFT)
-                .setMarginLeft(50)
-                .setMarginBottom(15);
+                .setTextAlignment(TextAlignment.JUSTIFIED)
+                .setMarginLeft(60)
+                .setMarginBottom(-1);
         document.add(titulo);
 
         String[] paragrafos = texto.split("\\r?\\n\\r?\\n");
@@ -537,14 +586,205 @@ public class PeticaoPdfService {
                     .setTextAlignment(TextAlignment.JUSTIFIED)
                     .setFirstLineIndent(25)
                     .setMultipliedLeading(1.5f)
-                    .setMarginLeft(50)
-                    .setMarginBottom(8);
+                    .setMarginLeft(50);
 
             document.add(p);
         }
 
         document.add(new Paragraph("\n"));
     }
+
+    public void adicionarTextoJuizoDigital(Document document, PdfFont fontNormal, PdfFont fontNegrito) {
+        Paragraph titulo = new Paragraph()
+                .add(new Text("4. ").setFont(fontNegrito).setFontSize(12))
+                .add(new Text("JUÍZO 100% DIGITAL").setFont(fontNegrito).setUnderline())
+                .setTextAlignment(TextAlignment.JUSTIFIED)
+                .setMarginLeft(60)
+                .setMarginBottom(10);
+        document.add(titulo);
+
+        String corpo = "A Resolução 345/2020 do CNJ, trouxe ao Judiciário a implementação do Juízo 100% Digital, da qual, a partir da Resolução 034/2021 deste E. TRT8, houve a adesão deste Regional. Assim, requer a tramitação dos presentes autos pelo Juízo 100% Digital.";
+
+        Paragraph texto = new Paragraph(corpo)
+                .setFont(fontNormal)
+                .setFontSize(11)
+                .setTextAlignment(TextAlignment.JUSTIFIED)
+                .setFirstLineIndent(25)
+                .setMultipliedLeading(1.5f)
+                .setMarginLeft(50)
+                .setMarginBottom(-2);
+
+        document.add(texto);
+        document.add(new Paragraph("\n"));
+    }
+
+    public void adicionarTextoDosFatos(Document document, Integer motivoRescisao, String textoContratoTrabalho, PdfFont fontNormal, PdfFont fontNegrito, String textoTextoCtpDifJornada, String textoFuncaoServico) {
+        String motivo = MotivoRescisao.searchReason(motivoRescisao);
+
+        Paragraph titulo = new Paragraph()
+                .add(new Text("5. ").setFont(fontNegrito).setFontSize(12))
+                .add(new Text("DOS FATOS ENSEJADORES DA PRESENTE DEMANDA. ").setFont(fontNegrito).setUnderline())
+                .add(new Text(motivo+".").setFont(fontNegrito).setUnderline())
+                .setTextAlignment(TextAlignment.JUSTIFIED)
+                .setMarginLeft(60)
+                .setMarginBottom(-2);
+        document.add(titulo);
+
+        Paragraph titulo2 = new Paragraph()
+                .add(new Text("5.1 ").setFont(fontNegrito).setFontSize(12))
+                .add(new Text("CONTRATO DE TRABALHO").setFont(fontNegrito).setUnderline())
+                .setTextAlignment(TextAlignment.JUSTIFIED)
+                .setMarginLeft(72)
+                .setMarginBottom(-2);
+        document.add(titulo2);
+
+        String[] paragrafos = textoContratoTrabalho.split("\\r?\\n");
+        for (String par : paragrafos) {
+            if (par.trim().isEmpty()) continue;
+
+            Paragraph texto = new Paragraph(par.trim())
+                    .setFont(fontNormal)
+                    .setFontSize(11)
+                    .setTextAlignment(TextAlignment.JUSTIFIED)
+                    .setFirstLineIndent(25)
+                    .setMultipliedLeading(1.5f)
+                    .setMarginLeft(55)
+                    .setMarginBottom(-2);
+
+            document.add(texto);
+        }
+
+        if (textoTextoCtpDifJornada != null) {
+            document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+            try {
+                var imageData = ImageDataFactory.create(new ClassPathResource("static/logo_ts_juridico.png").getURL());
+                Image logo = new Image(imageData)
+                        .scaleToFit(360, 160)
+                        .setHorizontalAlignment(HorizontalAlignment.CENTER)
+                        .setMarginLeft(68)
+                        .setMarginTop(-65);
+                document.add(logo);
+            } catch (Exception e) {
+                document.add(new Paragraph(" "));
+            }
+
+            Paragraph fls = new Paragraph("Fls.: 5")
+                    .setFont(fontNormal)
+                    .setFontSize(9)
+                    .setTextAlignment(TextAlignment.RIGHT)
+                    .setFixedPosition(460, 820, 100);
+            document.add(fls);
+
+            Paragraph titulo3 = new Paragraph()
+                    .add(new Text("5.2 ").setFont(fontNegrito).setFontSize(12))
+                    .add(new Text("DA INEXISTÊNCIA DE ANOTAÇÃO EM CTPS – DIFERENÇAS SALARIAIS – JORNADA DE TRABALHO")
+                            .setFont(fontNegrito).setUnderline())
+                    .setTextAlignment(TextAlignment.JUSTIFIED)
+                    .setMarginLeft(72)
+                    .setMarginBottom(-2);
+            document.add(titulo3);
+
+            String[] paragrafosCtps = textoTextoCtpDifJornada.split("\\r?\\n");
+            for (String par : paragrafosCtps) {
+                if (par.trim().isEmpty()) continue;
+
+                Paragraph texto = new Paragraph(par.trim())
+                        .setFont(fontNormal)
+                        .setFontSize(11)
+                        .setTextAlignment(TextAlignment.JUSTIFIED)
+                        .setFirstLineIndent(25)
+                        .setMultipliedLeading(1.5f)
+                        .setMarginLeft(55)
+                        .setMarginBottom(-2);
+
+                document.add(texto);
+            }
+        }
+
+        String[] topicoFuncaoServico = textoFuncaoServico.split("\\n\\n");
+        Paragraph titulo3 = new Paragraph()
+                .add(new Text("5.3 ").setFont(fontNegrito).setFontSize(12))
+                .add(new Text(topicoFuncaoServico[0])
+                        .setFont(fontNegrito).setUnderline())
+                .setTextAlignment(TextAlignment.JUSTIFIED)
+                .setMarginLeft(72)
+                .setMarginBottom(-2);
+        document.add(titulo3);
+
+        for (String par : topicoFuncaoServico) {
+            if (par.trim().isEmpty() || par.contains("DA FUNÇÃO DE") || par.contains("Excelência,") ) continue;
+
+            Paragraph texto = new Paragraph(par.trim())
+                    .setFont(fontNormal)
+                    .setFontSize(11)
+                    .setTextAlignment(TextAlignment.JUSTIFIED)
+                    .setFirstLineIndent(25)
+                    .setMultipliedLeading(1.5f)
+                    .setMarginLeft(55)
+                    .setMarginBottom(-2);
+
+            document.add(texto);
+        }
+    }
+
+    public void adicionarTextoDoMerito(Document document, PdfFont fontNormal, PdfFont fontNegrito, List<String> dados) {
+        try {
+            var imageData = ImageDataFactory.create(new ClassPathResource("static/logo_ts_juridico.png").getURL());
+            Image logo = new Image(imageData)
+                    .scaleToFit(360, 160)
+                    .setHorizontalAlignment(HorizontalAlignment.CENTER)
+                    .setMarginLeft(68)
+                    .setMarginTop(-65);
+            document.add(logo);
+        } catch (Exception e) {
+            document.add(new Paragraph(" "));
+        }
+
+        Paragraph fls = new Paragraph("Fls.: 6")
+                .setFont(fontNormal)
+                .setFontSize(9)
+                .setTextAlignment(TextAlignment.RIGHT)
+                .setFixedPosition(460, 820, 100);
+        document.add(fls);
+
+        Paragraph titulo = new Paragraph()
+                .add(new Text("6. ").setFont(fontNegrito).setFontSize(12))
+                .add(new Text("DO MÉRITO")
+                        .setFont(fontNegrito).setUnderline())
+                .setTextAlignment(TextAlignment.JUSTIFIED)
+                .setMarginLeft(60)
+                .setMarginBottom(-1);
+        document.add(titulo);
+
+
+
+
+
+//        dados
+//
+//        String[] paragrafos = texto.split("\\r?\\n\\r?\\n");
+//        for (String par : paragrafos) {
+//            if (par == null || par.trim().isEmpty()) continue;
+//
+//            Paragraph p = new Paragraph(par.trim())
+//                    .setFont(fontNormal)
+//                    .setFontSize(11)
+//                    .setTextAlignment(TextAlignment.JUSTIFIED)
+//                    .setFirstLineIndent(25)
+//                    .setMultipliedLeading(1.5f)
+//                    .setMarginLeft(50);
+//
+//            document.add(p);
+//        }
+
+        document.add(new Paragraph("\n"));
+    }
+
+
+
+
+
 
     private void inserirCabecalho(Document document) throws IOException {
         Table table = new Table(UnitValue.createPercentArray(new float[]{1, 4}))

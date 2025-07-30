@@ -79,6 +79,22 @@ public class ProcessoController {
                 .body(processoDtos);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ProcessoDto>> searchProcess(@PathVariable("userId") Long userId) {
+        List<ProcessoDto> processos = new ArrayList<>();
+
+        List<Processo> process = processoService.findByUserId(userId);
+        UsuarioProcesso userProcess = usuarioService.findUserProcessById(process.get(0).getUserId());
+
+        process.forEach(p -> {
+            processos.add(processoMapper.dataToModel(p, userProcess));
+        });
+
+        return ResponseEntity
+                .created(URI.create("/api/process"))
+                .body(processos);
+    }
+
     @GetMapping("/infos/{processUuid}")
     public ResponseEntity<ProcessoDto> searchProcess(@PathVariable("processUuid") String processUuid) {
         Processo process = processoService.findByProcessUuid(processUuid);

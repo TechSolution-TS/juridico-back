@@ -7,6 +7,7 @@ import com.ts.juridico.infrastructure.persistence.mapper.ProcessMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -35,5 +36,10 @@ public class ProcessAdapter implements ProcessoPort {
     @Override
     public Processo save(Processo processo) {
         return processoJpaRepository.save(processo);
+    }
+
+    @Override
+    public List<Processo> findByUserId(Long userId) {
+        return processoJpaRepository.findByUserId(userId);
     }
 }

@@ -13,6 +13,7 @@ public class UsuarioProcessoCadastroMapper {
                                                  UsuarioContratoEmpresa usuarioContratoEmpresa,
                                                  InfoProcessoUsuario infoProcessoUsuario) {
         return UsuarioProcessoCadastroDto.builder()
+                .id(user.getId())
                 .rg(user.getRg())
                 .cpf(user.getCpf())
                 .nome(user.getNome())

@@ -1,5 +1,7 @@
 package com.ts.juridico.application.controller;
 
+import com.ts.juridico.application.dto.request.DadosChatClienteRequestDto;
+import com.ts.juridico.application.dto.request.DadosChatJuridicoRequestDto;
 import com.ts.juridico.application.dto.request.DadosPeticaoRequestDto;
 import com.ts.juridico.application.dto.response.PeticaoResponseDto;
 import com.ts.juridico.domain.model.ArquivoModeloPeticao;
@@ -28,6 +30,18 @@ public class OpenAiController {
         String resumo = openAiChatService.summaryPetitionChat(arquivoModeloPeticao);
 
         return ResponseEntity.ok(resumo);
+    }
+
+    @PostMapping("/chat")
+    public ResponseEntity<String> getChat(@RequestBody DadosChatJuridicoRequestDto solicitacao) {
+        String response = openAiChatService.juridicoChat(solicitacao.getSolicitacao());
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/chat-cliente")
+    public ResponseEntity<String> getChatCliente(@RequestBody DadosChatClienteRequestDto solicitacao) {
+        String response = openAiChatService.chatCliente(solicitacao);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/generate/petition")
@@ -64,6 +78,9 @@ public class OpenAiController {
             String textoJusticaGratuita = templatesPadroesPeticao.gerarTextoJusticaGratuita(dados);
             String textoHonorariosSucumbenciais = templatesPadroesPeticao.gerarTextoHonorariosSucumbenciais(dados);
             String textoInconstitucionalidade223G = null;
+            String textoContratoTrabalho = templatesPadroesPeticao.gerarTextoContratoTrabalho(dados);
+            String textoTextoCtpDifJornada = templatesPadroesPeticao.gerarTextoCtpDifJornada(dados);
+            String textoFuncaoServico = templatesPadroesPeticao.generateTextPetitionChat(dados.getDescricaoFuncaoServico());
 
             if (dados.getInconstitucionalidade223G()) {
                 textoInconstitucionalidade223G = templatesPadroesPeticao.gerarTextoInconstitucionalidade223G();
@@ -79,6 +96,12 @@ public class OpenAiController {
             response.setTextoJusticaGratuita(textoJusticaGratuita);
             response.setTextoHonorariosSucumbenciais(textoHonorariosSucumbenciais);
             response.setTextoInconstitucionalidade223G(textoInconstitucionalidade223G);
+            response.setJuizoDigital(dados.getJuizoDigital());
+            response.setMotivoRescisao(dados.getMotivoRescisao());
+            response.setTextoContratoTrabalho(textoContratoTrabalho);
+            response.setTextoTextoCtpDifJornada(textoTextoCtpDifJornada);
+            response.setTextoFuncoesServicosGerais(textoFuncaoServico);
+            response.setDoMerito(templatesPadroesPeticao.gerarTextoDoMerito(dados));
             response.setSucesso(true);
             response.setMensagem("Petição gerada com sucesso");
 
