@@ -4,6 +4,7 @@ import com.ts.juridico.domain.model.Usuario;
 import com.ts.juridico.domain.port.UsuarioPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class AdvogadoService {
         return usuarioPort.findByLogin(userName);
     }
 
+    @Transactional
     public void save(Usuario advogado) {
         usuarioPort.save(advogado);
     }

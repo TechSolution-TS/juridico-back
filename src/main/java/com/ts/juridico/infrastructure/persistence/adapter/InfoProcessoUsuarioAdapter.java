@@ -2,6 +2,7 @@ package com.ts.juridico.infrastructure.persistence.adapter;
 
 import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
 import com.ts.juridico.domain.model.InfoProcessoUsuario;
+import com.ts.juridico.domain.model.UsuarioProcesso;
 import com.ts.juridico.domain.port.InfoProcessoUsuarioPort;
 import com.ts.juridico.infrastructure.exception.UserNotFoundException;
 import com.ts.juridico.infrastructure.persistence.jpa.InfoProcessoUsuarioJpaRepository;
@@ -41,5 +42,10 @@ public class InfoProcessoUsuarioAdapter implements InfoProcessoUsuarioPort {
     @Override
     public InfoProcessoUsuario save(InfoProcessoUsuario infoProcessoUsuario) {
         return infoProcessoUsuarioJpaRepository.save(infoProcessoUsuario);
+    }
+
+    @Override
+    public InfoProcessoUsuario findInfoProcessUserByUser(UsuarioProcesso user) {
+        return infoProcessoUsuarioJpaRepository.findByUserId(user);
     }
 }

@@ -11,5 +11,6 @@ public interface ArquivoModeloPeticaoPort {
     List<ArquivoModeloPeticao> listFiles(String typeFile);
     ArquivoModeloPeticao findByArquivoId(String arquivoId);
     ArquivoModeloPeticao update(ArquivoModeloPeticao arquivo);
-    void alteraTipo(String arquivoId, String novoTipo);
+    void alteraTipo(String arquivoId, String novoTipo, String status);
+    List<ArquivoModeloPeticao> listFilesByAdvogado(String advogado);
 }

@@ -2,6 +2,7 @@ package com.ts.juridico.domain.port;
 
 import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
 import com.ts.juridico.domain.model.InfoProcessoUsuario;
+import com.ts.juridico.domain.model.UsuarioProcesso;
 
 public interface InfoProcessoUsuarioPort {
 
@@ -9,4 +10,5 @@ public interface InfoProcessoUsuarioPort {
     InfoProcessoUsuario findInfoProcessUser(Long userId);
     InfoProcessoUsuario findInfoProcessUserByProcessoUuid(String processoUuid);
     InfoProcessoUsuario save(InfoProcessoUsuario infoProcessoUsuario);
+    InfoProcessoUsuario findInfoProcessUserByUser(UsuarioProcesso user);
 }

@@ -3,12 +3,15 @@ package com.ts.juridico.application.controller;
 import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
 import com.ts.juridico.application.dto.response.MessageResponseDto;
 import com.ts.juridico.application.dto.response.UsuarioProcessoCadastroResponseDto;
+import com.ts.juridico.application.dto.response.UsuarioProcessoDto;
 import com.ts.juridico.domain.model.UsuarioProcesso;
 import com.ts.juridico.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user/process")
@@ -39,5 +42,11 @@ public class UsuarioProcessoController {
     public ResponseEntity<UsuarioProcessoCadastroResponseDto> searchUserProcess(@PathVariable("processUuid") String processUuid) {
         UsuarioProcessoCadastroResponseDto userProcessByProcessUuid = usuarioService.findUserProcessByProcessUuid(processUuid);
         return ResponseEntity.ok(userProcessByProcessUuid);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<UsuarioProcessoDto>> searchUser() {
+        List<UsuarioProcessoDto> list = usuarioService.findAllUserProcess();
+        return ResponseEntity.ok(list);
     }
 }

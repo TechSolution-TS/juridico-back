@@ -10,4 +10,6 @@ public interface ProcessoJpaRepository extends JpaRepository<Processo, Long> {
     Optional<Processo> findByProcessoUuid(String processUuid);
 
     List<Processo> findByUserId(Long userId);
+
+    List<Processo> findByAdvogado(String adv);
 }

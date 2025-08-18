@@ -38,10 +38,15 @@ public class ArquivoModeloPeticaoAdapter implements ArquivoModeloPeticaoPort {
     }
 
     @Override
-    public void alteraTipo(String arquivoId, String novoTipo) {
-        int updated = arquivoModeloPeticaoJpaRepository.updateTypeByArquivoId(arquivoId, novoTipo);
+    public void alteraTipo(String arquivoId, String novoTipo, String status) {
+        int updated = arquivoModeloPeticaoJpaRepository.updateTypeByArquivoId(arquivoId, novoTipo, status);
         if (updated == 0) {
             throw new EntityNotFoundException("Nenhum registro com arquivoId=" + arquivoId);
         }
+    }
+
+    @Override
+    public List<ArquivoModeloPeticao> listFilesByAdvogado(String advogado) {
+        return arquivoModeloPeticaoJpaRepository.findByAdvogado(advogado);
     }
 }

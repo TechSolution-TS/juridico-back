@@ -44,6 +44,12 @@ public class UsuarioProcessoAdapter implements UsuarioProcessoPort {
     }
 
     @Override
+    public List<UsuarioProcesso> findUserProcess() {
+        return usuarioProcesssoJpaRepository.findAll();
+    }
+
+
+    @Override
     public UsuarioProcesso findById(Long id) {
         return usuarioProcesssoJpaRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Usuario with ID " + id + " not found"));
     }

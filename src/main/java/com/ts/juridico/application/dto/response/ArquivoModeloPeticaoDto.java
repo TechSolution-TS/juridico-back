@@ -12,4 +12,6 @@ public class ArquivoModeloPeticaoDto {
     private String linkVisualizar;
     private String linkDownload;
     private String mimeType;
+    private String status;
+    private String advogado;
 }

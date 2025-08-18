@@ -1,7 +1,10 @@
 package com.ts.juridico.domain.service;
 
 import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
+import com.ts.juridico.application.dto.response.ProcessoDto;
 import com.ts.juridico.application.dto.response.UsuarioProcessoCadastroResponseDto;
+import com.ts.juridico.application.dto.response.UsuarioProcessoDto;
+import com.ts.juridico.application.mapper.ProcessoMapper;
 import com.ts.juridico.application.mapper.UsuarioProcessoCadastroMapper;
 import com.ts.juridico.domain.model.*;
 import com.ts.juridico.domain.port.InfoProcessoUsuarioPort;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +31,7 @@ public class UsuarioService {
     private final InfoProcessoUsuarioPort infoProcessoUsuarioPort;
     private final UsuarioProcessoCadastroMapper usuarioProcessoCadastroMapper;
     private final ProcessoService processoService;
+    private final ProcessoMapper processoMapper;
 
     @Transactional
     public UsuarioProcesso userRegister(UsuarioProcessoCadastroDto usuarioDto) {
@@ -87,14 +92,40 @@ public class UsuarioService {
         return usuarioProcessoCadastroMapper.modelToResponseDto(user, empresaProcesso, usuarioContratoEmpresa, infoProcessoUsuario, processo);
     }
 
+    public List<UsuarioProcessoDto> findAllUserProcess() {
+        List<UsuarioProcessoDto> list = new ArrayList<>();
+        List<UsuarioProcesso> users = usuarioProcessoPort.findUserProcess();
+
+        users.forEach(user -> {
+            List<ProcessoDto> processos = processoMapper.tolistDto(processoService.findByUserId(user.getId()));
+
+            list.add(UsuarioProcessoDto.builder()
+                    .rg(user.getRg())
+                    .cpf(user.getCpf())
+                    .nome(user.getNome())
+                    .estadoCivil(user.getEstadoCivil())
+                    .endereco(user.getEndereco())
+                    .dataNascimento(user.getDataNascimento())
+                    .areaAtuacao(user.getAreaAtuacao())
+                    .telefone(user.getTelefone())
+                    .senhaGov(user.getSenhaGov())
+                    .processos(processos)
+                    .build());
+        });
+
+        return list;
+    }
+
     public UsuarioProcesso findUserProcessById(Long id) {
         return usuarioProcessoPort.findById(id);
     }
 
+    @Transactional
     public void saveDocumentProcessUser(Long userId, String fileId, String processUuid) {
         usuarioProcessoPort.saveDocumentProcess(userId, fileId, processUuid);
     }
 
+    @Transactional
     public void addDocumentProcessUser(String cpf, String fileId) {
         UsuarioProcesso user = usuarioProcessoPort.findUser(cpf);
         usuarioProcessoPort.saveDocumentProcess(user.getId(), fileId, null);
@@ -112,6 +143,7 @@ public class UsuarioService {
         return usuarioProcessoPort.findByUserIdAndProcessUuidNull(userId);
     }
 
+    @Transactional
     public void updateDocumentProcessUser(UsuarioDocumento document) {
         usuarioProcessoPort.updateDocumentProcess(document);
     }

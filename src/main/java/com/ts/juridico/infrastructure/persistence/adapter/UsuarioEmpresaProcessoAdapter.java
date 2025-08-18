@@ -2,6 +2,7 @@ package com.ts.juridico.infrastructure.persistence.adapter;
 
 import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
 import com.ts.juridico.domain.model.UsuarioEmpresaProcesso;
+import com.ts.juridico.domain.model.UsuarioProcesso;
 import com.ts.juridico.domain.port.UsuarioEmpresaProcessoPort;
 import com.ts.juridico.infrastructure.exception.UserNotFoundException;
 import com.ts.juridico.infrastructure.persistence.jpa.UsuarioEmpresaProcessoJpaRepository;
@@ -36,5 +37,13 @@ public class UsuarioEmpresaProcessoAdapter implements UsuarioEmpresaProcessoPort
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new UserNotFoundException("Processo with Processo " + processoUuid + " not found"));
+    }
+
+    @Override
+    public UsuarioEmpresaProcesso findEmpresaByUser(UsuarioProcesso user) {
+        return usuarioEmpresaProcessoJpaRepository.findByUserId(user)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException("Process with userId " + user.getId() + " not found"));
     }
 }

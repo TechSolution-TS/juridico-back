@@ -42,4 +42,9 @@ public class ProcessAdapter implements ProcessoPort {
     public List<Processo> findByUserId(Long userId) {
         return processoJpaRepository.findByUserId(userId);
     }
+
+    @Override
+    public List<Processo> findByAdvogado(String adv) {
+        return processoJpaRepository.findByAdvogado(adv);
+    }
 }

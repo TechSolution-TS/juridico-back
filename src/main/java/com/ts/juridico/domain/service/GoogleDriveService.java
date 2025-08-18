@@ -3,11 +3,13 @@ package com.ts.juridico.domain.service;
 import com.google.api.services.drive.model.File;
 import com.ts.juridico.application.dto.response.ArquivoModeloPeticaoDto;
 import com.ts.juridico.domain.model.ArquivoModeloPeticao;
+import com.ts.juridico.domain.model.enums.StatusPeticao;
 import com.ts.juridico.domain.port.ArquivoModeloPeticaoPort;
 import com.ts.juridico.domain.port.GooglePort;
 import com.ts.juridico.infrastructure.persistence.mapper.ArquivoModeloPeticaoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,6 +23,7 @@ public class GoogleDriveService {
     private final ArquivoModeloPeticaoPort arquivoModeloPeticaoPort;
     private final ArquivoModeloPeticaoMapper arquivoModeloPeticaoMapper;
 
+    @Transactional
     public String uploadFile(MultipartFile multipart, String typeFile) throws IOException {
         File file = googlePort.uploadFile(multipart);
         arquivoModeloPeticaoPort.saveModel(file, typeFile);
@@ -36,10 +39,23 @@ public class GoogleDriveService {
         return arquivoModeloPeticaoPort.findByArquivoId(arquivoId);
     }
 
+    @Transactional
     public void deleteFileByFileId(String arquivoId) {
-        arquivoModeloPeticaoPort.alteraTipo(arquivoId, "deletado");
+        arquivoModeloPeticaoPort.alteraTipo(arquivoId, StatusPeticao.DELETADO.getTipo(), StatusPeticao.DELETADO.getStatus());
     }
 
+    @Transactional
+    public void updateStatusFileByFileId(String arquivoId, String status) {
+        if (status.equals(StatusPeticao.ANALISE.getStatus())) {
+            arquivoModeloPeticaoPort.alteraTipo(arquivoId, StatusPeticao.ANALISE.getTipo(), StatusPeticao.ANALISE.getStatus());
+        } else if (status.equals(StatusPeticao.REJEITADO.getStatus())) {
+            arquivoModeloPeticaoPort.alteraTipo(arquivoId, StatusPeticao.REJEITADO.getTipo(), StatusPeticao.REJEITADO.getStatus());
+        } else if (status.equals(StatusPeticao.CONCLUIDO.getStatus())) {
+            arquivoModeloPeticaoPort.alteraTipo(arquivoId, StatusPeticao.CONCLUIDO.getTipo(), StatusPeticao.CONCLUIDO.getStatus());
+        }
+    }
+
+    @Transactional
     public ArquivoModeloPeticao updateFile(ArquivoModeloPeticao arquivo) {
         return arquivoModeloPeticaoPort.update(arquivo);
     }
@@ -54,5 +70,10 @@ public class GoogleDriveService {
 
     public byte[] downloadFile(String fileId) throws IOException {
         return googlePort.downloadFile(fileId);
+    }
+
+    public List<ArquivoModeloPeticaoDto> searchFilesByAdvogado(String advogado) {
+        List<ArquivoModeloPeticao> files = arquivoModeloPeticaoPort.listFilesByAdvogado(advogado);
+        return  arquivoModeloPeticaoMapper.tolistFundationDto(files);
     }
 }

@@ -13,4 +13,6 @@
     <include file="db/changelog/changes/0004-add-dataatualizacaostatus-column.xml"/>
     <include file="db/changelog/changes/0005-add-role-column.xml"/>
     <include file="db/changelog/changes/006-add-user-column.xml"/>
+    <include file="db/changelog/changes/007-add-status-advogado-column.xml"/>
+    <include file="db/changelog/changes/008-create-table-anotacoes.xml"/>
 </databaseChangeLog>

@@ -1,14 +1,13 @@
 package com.ts.juridico.application.controller;
 
 import com.ts.juridico.application.dto.response.ArquivoModeloPeticaoDto;
+import com.ts.juridico.application.dto.response.ProcessoAnotacaoDto;
 import com.ts.juridico.application.dto.response.ProcessoDto;
 import com.ts.juridico.application.dto.response.UploadResponseDto;
+import com.ts.juridico.application.mapper.ProcessoAnotacaoMapper;
 import com.ts.juridico.application.mapper.ProcessoMapper;
 import com.ts.juridico.domain.model.*;
-import com.ts.juridico.domain.service.GoogleDriveService;
-import com.ts.juridico.domain.service.OpenAiChatService;
-import com.ts.juridico.domain.service.ProcessoService;
-import com.ts.juridico.domain.service.UsuarioService;
+import com.ts.juridico.domain.service.*;
 import com.ts.juridico.infrastructure.exception.FileStorageException;
 import com.ts.juridico.infrastructure.persistence.mapper.ArquivoModeloPeticaoMapper;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +30,8 @@ public class ProcessoController {
     private final ProcessoMapper processoMapper;
     private final ArquivoModeloPeticaoMapper arquivoModeloPeticaoMapper;
     private final OpenAiChatService openAiChatService;
+    private final ProcessoAnotacoesService processoAnotacoesService;
+    private final ProcessoAnotacaoMapper processoAnotacaoMapper;
 
     @PostMapping("/create/{fileId}")
     public ResponseEntity<String> createProcess(@PathVariable("fileId") String fileId) {
@@ -64,10 +65,13 @@ public class ProcessoController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ProcessoDto>> findAll() {
-        List<Processo> processos = processoService.findAll();
+    public ResponseEntity<List<ProcessoDto>> findAll(@RequestParam(value = "adv", required = false) String adv) {
+        List<Processo> processos = (adv != null && !adv.isBlank())
+                ? processoService.findByAdvogado(adv)
+                : processoService.findAll();
 
         List<ProcessoDto> processoDtos = processoMapper.tolistDto(processos);
+
         processoDtos.forEach(p -> {
             UsuarioProcesso userProcess = usuarioService.findUserProcessById(p.getUserId());
             p.setNome(userProcess.getNome());
@@ -75,8 +79,7 @@ public class ProcessoController {
         });
 
         return ResponseEntity
-                .created(URI.create("/api/process"))
-                .body(processoDtos);
+                .ok(processoDtos);
     }
 
     @GetMapping("/user/{userId}")
@@ -102,8 +105,53 @@ public class ProcessoController {
         ProcessoDto processoDto = processoMapper.dataToModel(process, userProcess);
 
         return ResponseEntity
-                .created(URI.create("/api/process"))
-                .body(processoDto);
+                .ok(processoDto);
+    }
+
+    @GetMapping("/notes/{processUuid}")
+    public ResponseEntity<List<ProcessoAnotacaoDto>> searchNotesProcess(@PathVariable("processUuid") String processUuid) {
+        List<ProcessoAnotacao> notes = processoAnotacoesService.findByProcessoUuid(processUuid);
+        List<ProcessoAnotacaoDto> notesDto = processoAnotacaoMapper.toListDto(notes);
+
+        return ResponseEntity
+                .ok(notesDto);
+    }
+
+    @PostMapping("/notes/create")
+    public ResponseEntity<ProcessoAnotacaoDto> createNotes(@RequestBody ProcessoAnotacaoDto dto) {
+        try {
+            ProcessoAnotacao note = processoAnotacoesService.saveNote(dto);
+
+            return ResponseEntity
+                    .created(URI.create("/api/notes/create"))
+                    .body(processoAnotacaoMapper.modelToDto(note));
+
+        } catch (Exception e) {
+            throw new FileStorageException("Não foi possível criar a anotação!", e);
+        }
+    }
+
+    @PutMapping("/notes/update")
+    public ResponseEntity<ProcessoAnotacaoDto> updateNote(@RequestBody ProcessoAnotacaoDto dto) {
+        try {
+            ProcessoAnotacao note = processoAnotacoesService.findByAnotacaoUuid(dto.getAnotacaoUuid());
+            note.setTexto(dto.getTexto());
+
+            processoAnotacoesService.save(note);
+
+            return ResponseEntity
+                    .created(URI.create("/api/notes/update"))
+                    .body(processoAnotacaoMapper.modelToDto(note));
+
+        } catch (Exception e) {
+            throw new FileStorageException("Não foi possível atualizar a anotação!", e);
+        }
+    }
+
+    @DeleteMapping("/notes/{anotacaoUuid}")
+    public ResponseEntity<String> deleteNote(@PathVariable String anotacaoUuid) {
+        processoAnotacoesService.deleteByAnotacaoUuid(anotacaoUuid);
+        return ResponseEntity.ok("Operação realiza com sucesso!");
     }
 
     @GetMapping("/{processUuid}/documents")
@@ -118,8 +166,7 @@ public class ProcessoController {
 
 
         return ResponseEntity
-                .created(URI.create("/api/process"))
-                .body(arquivoModeloPeticaoMapper.tolistFundationDto(files));
+                .ok(arquivoModeloPeticaoMapper.tolistFundationDto(files));
     }
 
     @PostMapping("/upload/{processUuid}")

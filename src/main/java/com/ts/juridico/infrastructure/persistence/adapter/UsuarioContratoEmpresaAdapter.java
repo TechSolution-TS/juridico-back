@@ -2,6 +2,7 @@ package com.ts.juridico.infrastructure.persistence.adapter;
 
 import com.ts.juridico.application.dto.request.UsuarioProcessoCadastroDto;
 import com.ts.juridico.domain.model.UsuarioContratoEmpresa;
+import com.ts.juridico.domain.model.UsuarioProcesso;
 import com.ts.juridico.domain.port.UsuarioContratoEmpresaPort;
 import com.ts.juridico.infrastructure.exception.UserNotFoundException;
 import com.ts.juridico.infrastructure.persistence.jpa.UsuarioContratoEmpresaJpaRepository;
@@ -37,5 +38,10 @@ public class UsuarioContratoEmpresaAdapter implements UsuarioContratoEmpresaPort
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new UserNotFoundException("Contract with Processo " + processoUuid + " not found"));
+    }
+
+    @Override
+    public UsuarioContratoEmpresa findContractEnterpriseByUser(UsuarioProcesso user) {
+        return usuarioContratoEmpresaJpaRepository.findByUserId(user);
     }
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+          http://www.liquibase.org/xml/ns/dbchangelog
+          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="008-create-processo-anotacao" author="seuUsuario">
+        <createTable tableName="processo_anotacao">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_processo_anotacao"/>
+            </column>
+
+            <column name="anotacao_uuid" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_processo_anotacao_uuid"/>
+            </column>
+
+            <column name="processo_uuid" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="titulo" type="VARCHAR(150)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="texto" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="categoria" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="prioridade" type="VARCHAR(20)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="data_criacao" type="DATE" defaultValueComputed="CURRENT_DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addAutoIncrement tableName="processo_anotacao"
+                          columnName="id"
+                          columnDataType="BIGINT"
+                          incrementBy="1"
+                          startWith="1"/>
+    </changeSet>
+
+</databaseChangeLog>

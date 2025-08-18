@@ -58,6 +58,18 @@ public class FileController {
         return ResponseEntity.ok(driveService.searchFiles(type));
     }
 
+    @GetMapping("/minhas-peticoes/{advogado}")
+    public ResponseEntity<List<ArquivoModeloPeticaoDto>> searchFilesByAdvogado(@PathVariable String advogado) {
+        return ResponseEntity.ok(driveService.searchFilesByAdvogado(advogado));
+    }
+
+    @GetMapping("/update-status/{fileId}")
+    public ResponseEntity<String> updateStatusFile(@PathVariable String fileId,
+                                                   @RequestParam(value = "status") String status) {
+        driveService.updateStatusFileByFileId(fileId, status);
+        return ResponseEntity.ok("Operação realiza com sucesso!");
+    }
+
     @DeleteMapping("/{fileId}")
     public ResponseEntity<String> deleteFile(@PathVariable String fileId) {
         driveService.deleteFileByFileId(fileId);

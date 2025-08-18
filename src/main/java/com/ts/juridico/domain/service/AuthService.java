@@ -9,6 +9,7 @@ import com.ts.juridico.infrastructure.util.JwtUtil;
 import com.ts.juridico.infrastructure.util.Password;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class AuthService {
         return null;
     }
 
+    @Transactional
     public Usuario create(AuthCreateUserRequestDto authRequest) {
         Usuario advogado = Usuario.builder()
                 .uuid(UUID.randomUUID().toString())
