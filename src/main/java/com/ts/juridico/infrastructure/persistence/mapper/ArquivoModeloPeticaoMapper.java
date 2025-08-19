@@ -19,10 +19,14 @@ public class ArquivoModeloPeticaoMapper {
                 .linkVisualizar(file.getWebViewLink())
                 .linkDownload(file.getWebContentLink())
                 .mimeType(file.getMimeType())
-                .type(StatusPeticao.PENDENTE.getTipo())
-                .status(StatusPeticao.PENDENTE.getStatus())
+                .type(isModelo(typeFile)? StatusPeticao.MODELO.getTipo() : StatusPeticao.PENDENTE.getTipo())
+                .status(isModelo(typeFile)? StatusPeticao.MODELO.getTipo() : StatusPeticao.PENDENTE.getStatus())
                 .advogado(typeFile)
                 .build();
+    }
+
+    private Boolean isModelo(String typeFile) {
+        return StatusPeticao.MODELO.getTipo().equals(typeFile);
     }
 
     public List<ArquivoModeloPeticaoDto> tolistFundationDto(List<ArquivoModeloPeticao> list) {

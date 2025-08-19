@@ -8,6 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum StatusPeticao {
 
+    MODELO("modelo", "modelo"),
     DELETADO("deletado", "deletado"),
     REJEITADO("rejeitado", "rejeitado"),
     PENDENTE("pendente", "pendente"),
