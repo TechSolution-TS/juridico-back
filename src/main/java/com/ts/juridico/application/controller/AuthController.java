@@ -42,6 +42,13 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
 
+    @PutMapping("/login/update")
+    public ResponseEntity<?> update(@RequestBody AuthCreateUserRequestDto authRequest) {
+        authService.update(authRequest);
+
+        return ResponseEntity.ok("Operação realiza com sucesso!");
+    }
+
     @GetMapping("/users")
     public ResponseEntity<?> searchUsers() {
         List<AuthCreateUserResponseDto> all = authService.findAll();

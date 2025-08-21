@@ -48,6 +48,16 @@ public class AuthService {
         return advogado;
     }
 
+    @Transactional
+    public void update(AuthCreateUserRequestDto authRequest) {
+        Usuario user = advogadoService.findByUserLogin(authRequest.getUsername());
+
+        user.setPassword(Password.hashPassword(authRequest.getPassword()));
+        user.setRole(authRequest.getRole());
+        advogadoService.save(user);
+    }
+
+
     public List<AuthCreateUserResponseDto>  findAll() {
         List<AuthCreateUserResponseDto> authCreateUserResponseDtos = new ArrayList<>();
         List<Usuario> all = advogadoService.findAll();
