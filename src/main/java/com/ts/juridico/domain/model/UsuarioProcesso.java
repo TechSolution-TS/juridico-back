@@ -21,7 +21,7 @@ public class UsuarioProcesso {
     @Column(length = 20)
     private String rg;
 
-    @Column(length = 14)
+    @Column(length = 18)
     private String cpf;
 
     @Column(length = 100)

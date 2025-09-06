@@ -37,3 +37,6 @@ scheduler:
 openai:
   api:
     key: "${OPENAI_API_KEY:}"
+
+driver:
+  folders: "${ID_FOLDER_DRIVER:}"

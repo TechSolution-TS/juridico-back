@@ -21,7 +21,7 @@ public class UsuarioProcessoMapper {
                 .nome(dto.getNome())
                 .endereco(dto.getEndereco())
                 .estadoCivil(dto.getEstadoCivil())
-                .dataNascimento(LocalDate.parse(dto.getDataNascimento(), formatter))
+                .dataNascimento(!dto.getDataNascimento().isEmpty() ? LocalDate.parse(dto.getDataNascimento(), formatter) : null)
                 .telefone(dto.getTelefone())
                 .senhaGov(dto.getSenhaGov())
                 .processoUuid(dto.getProcessoUuid())
