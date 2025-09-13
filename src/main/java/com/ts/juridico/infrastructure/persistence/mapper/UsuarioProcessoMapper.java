@@ -15,8 +15,8 @@ public class UsuarioProcessoMapper {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         return UsuarioProcesso.builder()
-                .cpf(dto.getCpf())
-                .rg(dto.getRg())
+                .cpf(dto.getCpf().replaceAll("\\D", ""))
+                .rg(dto.getRg().replaceAll("\\D", ""))
                 .areaAtuacao(dto.getAreaAtuacao())
                 .nome(dto.getNome())
                 .endereco(dto.getEndereco())
