@@ -127,7 +127,8 @@ public class UsuarioService {
 
     @Transactional
     public void addDocumentProcessUser(String cpf, String fileId) {
-        UsuarioProcesso user = usuarioProcessoPort.findUser(cpf);
+        String cpfSemPontuacao = cpf.replaceAll("[^0-9]", "");
+        UsuarioProcesso user = usuarioProcessoPort.findUser(cpfSemPontuacao);
         usuarioProcessoPort.saveDocumentProcess(user.getId(), fileId, null);
     }
 
