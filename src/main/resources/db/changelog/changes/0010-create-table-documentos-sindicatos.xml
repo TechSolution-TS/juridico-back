@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+          http://www.liquibase.org/xml/ns/dbchangelog
+          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0010-create-table-documentos-sindicatos" author="seuUsuario">
+        <createTable tableName="documentos_sindicatos">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_documentos_sindicatos"/>
+            </column>
+
+            <column name="name" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="uuid" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addAutoIncrement tableName="documentos_sindicatos"
+                          columnName="id"
+                          columnDataType="BIGINT"
+                          incrementBy="1"
+                          startWith="1"/>
+    </changeSet>
+
+</databaseChangeLog>

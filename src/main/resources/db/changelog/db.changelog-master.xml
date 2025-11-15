@@ -16,4 +16,6 @@
     <include file="db/changelog/changes/007-add-status-advogado-column.xml"/>
     <include file="db/changelog/changes/008-create-table-anotacoes.xml"/>
     <include file="db/changelog/changes/009-alter-column-cpf-usuario-processo.xml"/>
+    <include file="db/changelog/changes/0010-create-table-documentos-sindicatos.xml"/>
+    <include file="db/changelog/changes/0011-create-table-arquivos-documentos-sindicatos.xml"/>
 </databaseChangeLog>

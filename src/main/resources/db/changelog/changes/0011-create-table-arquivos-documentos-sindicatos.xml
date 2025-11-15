@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+          http://www.liquibase.org/xml/ns/dbchangelog
+          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0011-create-table-arquivos-documentos-sindicatos" author="seuUsuario">
+        <createTable tableName="arquivos_documentos_sindicatos">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_arquivos_documentos_sindicatos"/>
+            </column>
+
+            <column name="name" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="uuid" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="arquivo_id" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="link_visualizar" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="link_download" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="mime_type" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="documento_sindicato_uuid" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addAutoIncrement tableName="arquivos_documentos_sindicatos"
+                          columnName="id"
+                          columnDataType="BIGINT"
+                          incrementBy="1"
+                          startWith="1"/>
+    </changeSet>
+
+</databaseChangeLog>

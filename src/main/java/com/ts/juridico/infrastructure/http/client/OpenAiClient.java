@@ -104,30 +104,4 @@ public class OpenAiClient {
             throw new RuntimeException("Erro ao gerar petição trabalhista: " + e.getMessage(), e);
         }
     }
-
-    // MÉTODO PARA TESTAR COM TIMEOUT MENOR
-    public String testarComTimeoutCurto(String systemMessage, String userMessage) {
-        try {
-            log.info("🧪 Testando com configurações otimizadas...");
-
-            List<ChatMessage> messages = Arrays.asList(
-                    new ChatMessage(ChatMessageRole.SYSTEM.value(), systemMessage),
-                    new ChatMessage(ChatMessageRole.USER.value(), userMessage)
-            );
-
-            ChatCompletionRequest request = ChatCompletionRequest.builder()
-                    .model(FINE_TUNED_MODEL)
-                    .messages(messages)
-                    .maxTokens(2000) // Menor para resposta mais rápida
-                    .temperature(0.0) // Zero para resposta mais direta
-                    .build();
-
-            ChatCompletionResult result = openAi.createChatCompletion(request);
-            return result.getChoices().get(0).getMessage().getContent();
-
-        } catch (Exception e) {
-            log.error("❌ Erro no teste otimizado: {}", e.getMessage());
-            throw new RuntimeException("Erro no teste: " + e.getMessage(), e);
-        }
-    }
 }

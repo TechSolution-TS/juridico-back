@@ -5,6 +5,7 @@ import com.ts.juridico.application.dto.response.ArquivoModeloPeticaoDto;
 import com.ts.juridico.domain.model.ArquivoModeloPeticao;
 import com.ts.juridico.domain.model.enums.StatusPeticao;
 import com.ts.juridico.domain.port.ArquivoModeloPeticaoPort;
+import com.ts.juridico.domain.port.DocumentosSindicatosPort;
 import com.ts.juridico.domain.port.GooglePort;
 import com.ts.juridico.infrastructure.persistence.mapper.ArquivoModeloPeticaoMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +23,19 @@ public class GoogleDriveService {
     private final GooglePort googlePort;
     private final ArquivoModeloPeticaoPort arquivoModeloPeticaoPort;
     private final ArquivoModeloPeticaoMapper arquivoModeloPeticaoMapper;
+    private final DocumentosSindicatosPort documentosSindicatosPort;
 
     @Transactional
     public String uploadFile(MultipartFile multipart, String typeFile) throws IOException {
         File file = googlePort.uploadFile(multipart);
         arquivoModeloPeticaoPort.saveModel(file, typeFile);
+        return file.getId();
+    }
+
+    @Transactional
+    public String uploadFileFolders(MultipartFile multipart, String uuidFolder) throws IOException {
+        File file = googlePort.uploadFile(multipart);
+        documentosSindicatosPort.saveFileFolder(file, uuidFolder);
         return file.getId();
     }
 
