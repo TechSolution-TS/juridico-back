@@ -16,10 +16,17 @@ public interface ArquivoModeloPeticaoJpaRepository extends JpaRepository<Arquivo
     @Transactional
     @Query("""
         UPDATE ArquivoModeloPeticao a
-        SET a.type = :newType, a.status = :status, a.advogado = :newType
+        SET a.type = :newType, a.status = :status
         WHERE a.arquivoId = :arquivoId
         """)
     int updateTypeByArquivoId(String arquivoId, String newType, String status);
-
+    @Modifying
+    @Transactional
+    @Query("""
+        UPDATE ArquivoModeloPeticao a
+        SET a.type = :newType, a.status = :status, a.advogado = :newType
+        WHERE a.arquivoId = :arquivoId
+        """)
+    int updateTypeByArquivoIdDelete(String arquivoId, String newType, String status);
     List<ArquivoModeloPeticao> findByAdvogado(String advogado);
 }

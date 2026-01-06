@@ -5,6 +5,8 @@ import com.ts.juridico.application.dto.response.UsuarioProcessoCadastroResponseD
 import com.ts.juridico.domain.model.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class UsuarioProcessoCadastroMapper {
 
@@ -65,9 +67,9 @@ public class UsuarioProcessoCadastroMapper {
                 .cargo(usuarioContratoEmpresa.getCargo())
                 .salario(usuarioContratoEmpresa.getSalario())
                 .ultimaRemuneracao(usuarioContratoEmpresa.getUltimaRemuneracao())
-                .dataAdmissao(usuarioContratoEmpresa.getDataAdmissao().toString().toString())
-                .dataDemissao(usuarioContratoEmpresa.getDataDemissao().toString())
-                .dataAvisoPrevio(usuarioContratoEmpresa.getDataAvisoPrevio().toString())
+                .dataAdmissao(usuarioContratoEmpresa.getDataAdmissao() != null ? usuarioContratoEmpresa.getDataAdmissao().toString() : null)
+                .dataDemissao(usuarioContratoEmpresa.getDataDemissao() != null ? usuarioContratoEmpresa.getDataDemissao().toString() : null)
+                .dataAvisoPrevio(usuarioContratoEmpresa.getDataAvisoPrevio() != null ? usuarioContratoEmpresa.getDataAvisoPrevio().toString() : null)
                 .tipoAdmissao(usuarioContratoEmpresa.getTipoAdmissao())
                 .tipoDemissao(usuarioContratoEmpresa.getTipoDemissao())
                 .tipoAvisoPrevio(usuarioContratoEmpresa.getTipoAvisoPrevio())

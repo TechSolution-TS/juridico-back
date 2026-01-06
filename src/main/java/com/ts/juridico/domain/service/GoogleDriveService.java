@@ -50,7 +50,7 @@ public class GoogleDriveService {
 
     @Transactional
     public void deleteFileByFileId(String arquivoId) {
-        arquivoModeloPeticaoPort.alteraTipo(arquivoId, StatusPeticao.DELETADO.getTipo(), StatusPeticao.DELETADO.getStatus());
+        arquivoModeloPeticaoPort.alteraTipoDelete(arquivoId, StatusPeticao.DELETADO.getTipo(), StatusPeticao.DELETADO.getStatus());
     }
 
     @Transactional
