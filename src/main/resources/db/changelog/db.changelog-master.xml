@@ -18,4 +18,5 @@
     <include file="db/changelog/changes/009-alter-column-cpf-usuario-processo.xml"/>
     <include file="db/changelog/changes/0010-create-table-documentos-sindicatos.xml"/>
     <include file="db/changelog/changes/0011-create-table-arquivos-documentos-sindicatos.xml"/>
+    <include file="db/changelog/changes/0012-create-table-agenda.xml"/>
 </databaseChangeLog>
